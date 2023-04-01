@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-
         // ON SUBMIT
         btnUserSubmit.setOnClickListener {
 
