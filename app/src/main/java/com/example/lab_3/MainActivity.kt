@@ -18,18 +18,22 @@ class MainActivity : AppCompatActivity() {
 
         db = FirebaseDatabase
             .getInstance("https://lab-3-8ee48-default-rtdb.europe-west1.firebasedatabase.app/")
-            .getReference("users") // är en rot som man pushar till "users", USER-TABLE
+            .getReference("users") // är en rot som man pushar till "users", USER-TABLE, som @Entity i Room
 
-        val user = "-NRo-uC3avti7OSs0o8n"
-        val userRef = FirebaseDatabase.getInstance().getReference("users/$user")
+        // Exempel på radera user
+        //val user = "-NRo-uC3avti7OSs0o8n"
+       // val userRef = FirebaseDatabase.getInstance().getReference("users/$user")
 
-        //https://lab-3-8ee48-default-rtdb.europe-west1.firebasedatabase.app/
+
 
         val btnUserSubmit = binding.btnSubmitUser
         val tvUser = binding.tvUser
         val btnFetchUser = binding.btnFetchUser
         val etUsername = binding.etUsername
         val etUserPassword = binding.etUserPassword
+
+
+        /*   Denna kod är över flödig , när vi har våra setOnClicks
 
         // DEFINE LISTENER,    skapar en egen listener, för att ändra på datan med onDataChange(),
         // som måste kopplas sedan med addvalueEventListener
@@ -41,10 +45,46 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(applicationContext,"Failed something went wrong ", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext,"An error occurred $error", Toast.LENGTH_LONG).show()
 
             }
         }
+
+         // Här kopplas den efter ändringen i onDataChange
+        db.addValueEventListener(userListener)
+
+
+         */
+
+        /*
+        TODO - QUERY INFO
+        db.orderByChild("users")
+        db.child("-NRyMab-r_Yyb8mZr0Iz")
+         */
+
+        // FETCH
+       btnFetchUser.setOnClickListener {
+           db.child("-NRyMab-r_Yyb8mZr0Iz")
+               .get()
+               .addOnSuccessListener {
+                   val newUser = User(
+                       it.child("username").value.toString(),
+                       it.child("password").value.toString(),
+                       it.child("isregister").value.toString().toBoolean()
+                   )
+                   // Kolla om namnet stämmer med användaren
+                   // if(newUser.username == "Benny")
+                   tvUser.text = newUser.username
+                   //tvUser.text = it.value.toString() skriver ut hela info
+               }
+
+               .addOnFailureListener {
+                   Toast.makeText(applicationContext,"An error occurred $it", Toast.LENGTH_LONG).show()
+               }
+
+
+       }
+
 
         // ON SUBMIT
         btnUserSubmit.setOnClickListener {
@@ -61,6 +101,8 @@ class MainActivity : AppCompatActivity() {
             // TODO - CHECK USERNAME: EXISTS?
             // Check if username exist - Fetch
 
+
+
             // TODO - PUSH TO DATABASE
             // setValue har 2 funktioner , pushar upp värdet, ändar/sätter nytt värdet
             db.push()
@@ -74,6 +116,7 @@ class MainActivity : AppCompatActivity() {
                 // it står för exception
             }
             /*
+            radera usern
             userRef.removeValue(
             ).addOnSuccessListener {  }
 
