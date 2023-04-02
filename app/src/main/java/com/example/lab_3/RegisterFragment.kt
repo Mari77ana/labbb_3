@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import com.example.lab_3.databinding.FragmentRegisterBinding
 import com.google.firebase.database.*
 
@@ -35,31 +36,89 @@ class RegisterFragment : Fragment() {
         val btnRegisterUser = binding.btnRegisterUser
         val etRegisterUsername = binding.etRegisterUsername
         val etRegisterUserPassword = binding.etRegisterUserPassword
+        var newUser: User
 
 
         btnRegisterUser.setOnClickListener {
             val regUsername = etRegisterUsername.text.toString()
             val regUserPassword = etRegisterUserPassword.text.toString()
+            newUser = User(regUsername, regUserPassword)
 
 
             if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
+                val userRef = db.child(regUsername)
+                userRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if(dataSnapshot.exists()) {
+                            println("User exists")
+                            Toast.makeText(context, "User already exists. Try with another username", Toast.LENGTH_LONG).show()
+                        }
+                        else{
+                            //push newUser
+                            userRef.setValue(newUser)
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "Succeeded!", Toast.LENGTH_LONG).show()
+                                }
+                        }
 
-                val newUser = User(regUsername, regUserPassword)
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
+                    }
+
+                })
                 println(newUser.toString())
-                db.orderByChild("regUsername").equalTo(regUsername)
-                    .addListenerForSingleValueEvent(object : ValueEventListener{
+            } else {
+                Toast.makeText(context, "Fill in all fields please!", Toast.LENGTH_LONG).show()
+            }
+            Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_aboutFragment)
+
+
+
+                /*
+                db.push()
+                    .setValue(newUser)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Succeeded", Toast.LENGTH_SHORT).show()
+                    }
+
+                 */
+                /*
+                db.push()
+                    .setValue(newUser)
+                    .addOnSuccessListener {
+                        Toast.makeText(context,"Succeeded", Toast.LENGTH_LONG).show()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
+
+                    }
+
+                 */
+
+
+
+
+            /*
+            db.child("users").equalTo(regUsername).addListenerForSingleValueEvent(
+                object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
-                       if(snapshot.exists()){
-                           Toast.makeText(context,"Username already exist!", Toast.LENGTH_LONG).show()
-                       }
+                        if (snapshot.exists()){
+                            Toast.makeText(context,"Username already exist!", Toast.LENGTH_LONG).show()
+                        }
                         else{
                             db.push()
                                 .setValue(newUser)
                                 .addOnSuccessListener {
                                     Toast.makeText(context, "Succeeded", Toast.LENGTH_SHORT).show()
                                 }
+
+
                         }
                     }
+
                     override fun onCancelled(error: DatabaseError) {
                         Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
                         // it står för exception
@@ -67,14 +126,35 @@ class RegisterFragment : Fragment() {
 
                 })
 
+             */
+
+
+            /*
+              db.orderByChild("regUsername").equalTo(regUsername)
+                  .addListenerForSingleValueEvent(object : ValueEventListener{
+                  override fun onDataChange(snapshot: DataSnapshot) {
+                     if(snapshot.exists()){
+                         Toast.makeText(context,"Username already exist!", Toast.LENGTH_LONG).show()
+                     }
+                      else{
+                          db.push()
+                              .setValue(newUser)
+                              .addOnSuccessListener {
+                                  Toast.makeText(context, "Succeeded", Toast.LENGTH_SHORT).show()
+                              }
+                      }
+                  }
+                  override fun onCancelled(error: DatabaseError) {
+                      Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
+                      // it står för exception
+                  }
+
+              })
+
+             */
 
 
 
-
-
-            } else {
-                Toast.makeText(context, "Fill in all fields please!", Toast.LENGTH_LONG).show()
-            }
 
         }
         return view

@@ -7,4 +7,6 @@
     <string name="text_welcome">WELCOME TO BLOG SITE</string>
     <string name="log_in">log in</string>
     <string name="represents_a_blog_picture">represents a blog picture</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
