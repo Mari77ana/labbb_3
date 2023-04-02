@@ -13,7 +13,7 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var db : DatabaseReference
+    private lateinit var db: DatabaseReference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,25 +25,27 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentRegisterBinding.inflate(layoutInflater,container,false)
+        _binding = FragmentRegisterBinding.inflate(layoutInflater, container, false)
         val view = binding.root
-
 
 
         db = FirebaseDatabase
             .getInstance("https://lab-3-8ee48-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("users") // är en rot som man pushar till "users", USER-TABLE, som @Entity i Room
         val btnRegisterUser = binding.btnRegisterUser
-        val etRegisterUsername = binding.btnRegisterUser
+        val etRegisterUsername = binding.etRegisterUsername
         val etRegisterUserPassword = binding.etRegisterUserPassword
 
 
         btnRegisterUser.setOnClickListener {
             val regUsername = etRegisterUsername.text.toString()
             val regUserPassword = etRegisterUserPassword.text.toString()
-            val newUser = User(regUsername,regUserPassword)
 
-            if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()){
+
+            if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
+
+                val newUser = User(regUsername, regUserPassword)
+                println(newUser.toString())
                 db.orderByChild("regUsername").equalTo(regUsername)
                     .addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -65,23 +67,22 @@ class RegisterFragment : Fragment() {
 
                 })
 
-            }
 
-            else{
-                Toast.makeText(context,"Fill in all fields please!", Toast.LENGTH_LONG).show()
+
+
+
+
+            } else {
+                Toast.makeText(context, "Fill in all fields please!", Toast.LENGTH_LONG).show()
             }
 
         }
-
-
-
         return view
-    }
 
+
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
-
 }
