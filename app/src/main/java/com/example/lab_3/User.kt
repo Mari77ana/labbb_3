@@ -6,6 +6,6 @@ data class User(
     // viktigt, så länge man kollar att värdet kommer in
     val username: String? = null,
     val password: String? = null,
-    val isRegistered: Boolean? = null
+
 ) {
 }
