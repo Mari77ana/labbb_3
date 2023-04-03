@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/et_loginUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="@string/et_login_username"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            android:padding="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.053" />
+
+        <EditText
+            android:id="@+id/et_loginUserPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="68dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:hint="@string/et_user_password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:padding="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_login2"
+            app:layout_constraintEnd_toEndOf="@+id/et_loginUsername"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/et_loginUsername" />
+
+        <Button
+            android:id="@+id/btn_login2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="432dp"
+            android:text="@string/btn_login_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/et_loginUserPassword"
+            app:layout_constraintStart_toStartOf="@+id/et_loginUserPassword" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>

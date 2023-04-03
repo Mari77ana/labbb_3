@@ -16,7 +16,6 @@ class RegisterFragment : Fragment() {
 
     private lateinit var db: DatabaseReference
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,6 +35,7 @@ class RegisterFragment : Fragment() {
         val btnRegisterUser = binding.btnRegisterUser
         val etRegisterUsername = binding.etRegisterUsername
         val etRegisterUserPassword = binding.etRegisterUserPassword
+        val btnLogin = binding.btnLogin
         var newUser: User
 
 
@@ -59,8 +59,8 @@ class RegisterFragment : Fragment() {
                                 .addOnSuccessListener {
                                     Toast.makeText(context, "Succeeded!", Toast.LENGTH_LONG).show()
                                 }
-                        }
 
+                        }
 
                     }
 
@@ -70,14 +70,11 @@ class RegisterFragment : Fragment() {
 
                 })
                 println(newUser.toString())
-            } else {
+            }
+            else {
                 Toast.makeText(context, "Fill in all fields please!", Toast.LENGTH_LONG).show()
             }
-            Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_aboutFragment)
-
-
-
-                /*
+                 /*
                 db.push()
                     .setValue(newUser)
                     .addOnSuccessListener {
@@ -85,7 +82,7 @@ class RegisterFragment : Fragment() {
                     }
 
                  */
-                /*
+                   /*
                 db.push()
                     .setValue(newUser)
                     .addOnSuccessListener {
@@ -97,10 +94,6 @@ class RegisterFragment : Fragment() {
                     }
 
                  */
-
-
-
-
             /*
             db.child("users").equalTo(regUsername).addListenerForSingleValueEvent(
                 object : ValueEventListener{
@@ -127,9 +120,7 @@ class RegisterFragment : Fragment() {
                 })
 
              */
-
-
-            /*
+           /*
               db.orderByChild("regUsername").equalTo(regUsername)
                   .addListenerForSingleValueEvent(object : ValueEventListener{
                   override fun onDataChange(snapshot: DataSnapshot) {
@@ -153,12 +144,13 @@ class RegisterFragment : Fragment() {
 
              */
 
-
-
+        }
+        btnLogin.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment)
 
         }
-        return view
 
+        return view
 
     }
     override fun onDestroy() {
