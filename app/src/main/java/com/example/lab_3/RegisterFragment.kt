@@ -35,7 +35,7 @@ class RegisterFragment : Fragment() {
         val btnRegisterUser = binding.btnRegisterUser
         val etRegisterUsername = binding.etRegisterUsername
         val etRegisterUserPassword = binding.etRegisterUserPassword
-        val btnLogin = binding.btnLogin
+        val btnToLoginPage = binding.btnLogPage
         var newUser: User
 
 
@@ -63,7 +63,6 @@ class RegisterFragment : Fragment() {
                         }
 
                     }
-
                     override fun onCancelled(error: DatabaseError) {
                         Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
                     }
@@ -145,7 +144,7 @@ class RegisterFragment : Fragment() {
              */
 
         }
-        btnLogin.setOnClickListener {
+        btnToLoginPage.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment)
 
         }

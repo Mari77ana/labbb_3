@@ -5,10 +5,14 @@
     <string name="register_password">password...</string>
 
     <string name="btn_registerUser">register</string>
-    <string name="btn_login">login</string>
+
     <string name="tv_welcome">WELCOME TO BLOG SITE</string>
     <string name="img_represents_blog_site">represents blog site</string>
     <string name="et_login_username">username</string>
     <string name="et_user_password">password</string>
-    <string name="btn_login_2">log in</string>
+    <string name="login_btn">login</string>
+    <string name="login">login</string>
+    <string name="to_login">to login</string>
+
+
 </resources>
