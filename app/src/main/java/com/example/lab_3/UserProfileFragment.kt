@@ -9,11 +9,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.lab_3.api.Quote
+import com.example.lab_3.api.QuoteTextApi
 import com.example.lab_3.databinding.FragmentUserProfileBinding
 import com.example.lab_3.viewModel.UserUiState
 import com.example.lab_3.viewModel.UserViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 
 class UserProfileFragment : Fragment() {
 
@@ -35,6 +39,8 @@ class UserProfileFragment : Fragment() {
     ): View? {
         _binding = FragmentUserProfileBinding.inflate(layoutInflater,container,false)
         val view = binding.root
+        val tvQuote = binding.tvQuoteText
+
         /*
         //val viewModel: UserViewModel by activityViewModels()
         //viewModel.userUiState.observe(viewLifecycleOwner){state -> tvDisplayUsername.text = state.username}
@@ -110,18 +116,40 @@ class UserProfileFragment : Fragment() {
             }
         }
 
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.goprogram.ai")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val myQuote = retrofit.create<QuoteTextApi>().getQuoteText()
+
+        myQuote.enqueue(object : Callback<Quote>{
+            override fun onResponse(call: Call<Quote>, response: Response<Quote>) {
+                if(response.isSuccessful){
+                    val quote = response.body()
+                    println("My quote: $quote")
+
+                    if(quote != null){
+                        tvQuote.text = quote.myProfileQuote.toString()
+                    }
+                }
+                else{
+                    println("ERROR")
+                }
+            }
+
+            override fun onFailure(call: Call<Quote>, t: Throwable) {
+                println(t.printStackTrace())
+            }
+
+        })
+
+
+
+
         return view
 
 
-        /*
-        lifecycleScope.launchWhenStarted {
-            viewModel.uiState.collect { uiState ->
-                val username = uiState.username
-                view.tv= username
-            }
-        }
 
-         */
     /*
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

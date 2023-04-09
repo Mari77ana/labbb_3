@@ -14,6 +14,8 @@
     <string name="login">login</string>
     <string name="to_login">to login</string>
     <string name="tv_username">Username</string>
+    <string name="my_quote_text">my quote text</string>
+    <string name="represents_profile_picture">represents profile picture</string>
 
 
 </resources>
