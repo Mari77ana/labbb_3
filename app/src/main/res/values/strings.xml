@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lab_3</string>
+    <string name="app_name">Blog site</string>
 
     <string name="register_username">username...</string>
     <string name="register_password">password...</string>
@@ -13,6 +13,7 @@
     <string name="login_btn">login</string>
     <string name="login">login</string>
     <string name="to_login">to login</string>
+    <string name="tv_username">Username</string>
 
 
 </resources>

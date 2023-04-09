@@ -6,22 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.*
+import androidx.navigation.Navigation
 import com.example.lab_3.databinding.FragmentLoginBinding
 import com.example.lab_3.databinding.FragmentRegisterBinding
+import com.example.lab_3.viewModel.UserViewModel
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-class LoginFragment : Fragment() {
+class LoginFragment : Fragment(){
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var db: DatabaseReference
+   //private lateinit var userViewModel: UserViewModel
+  // val userViewModel by viewModels <UserViewModel>()
+   private val viewModel: UserViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onCreateView(
@@ -31,6 +39,7 @@ class LoginFragment : Fragment() {
         _binding = FragmentLoginBinding.inflate(layoutInflater,container,false)
         val view = binding.root
 
+        //val viewModel: UserViewModel by activityViewModels()
 
         db = FirebaseDatabase
             .getInstance("https://lab-3-8ee48-default-rtdb.europe-west1.firebasedatabase.app/")
@@ -40,7 +49,7 @@ class LoginFragment : Fragment() {
         val etUsername = binding.etLoginUsername
         val etPassword = binding.etLoginUserPassword
         val btnLoginUser = binding.btnLoginUser
-        var user : User?
+        var user : User
 
       btnLoginUser.setOnClickListener {
 
@@ -60,6 +69,31 @@ class LoginFragment : Fragment() {
                                             println("password  match")
                                             Toast.makeText(context, "WELCOME",
                                                 Toast.LENGTH_SHORT).show()
+                                           // user.username?.let { it1 -> viewModel.getUsername(it1) }
+                                           //userViewModel.getUsername(username)
+
+                                            viewModel.getUsername(username)
+                                            println("Username: $user")
+
+                                            //viewModel.setUsername(username)
+                                            /*
+                                            lifecycleScope.launch {
+                                                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                                                    viewModel.uiState.collect() {
+                                                        viewModel.getUsername(user.username.toString())
+                                                         println("Username: $user")
+
+
+
+                                                    }
+
+                                                }
+                                            }
+
+                                            */
+                                            Navigation.findNavController(view).navigate(
+                                                R.id.action_loginFragment_to_userProfileFragment)
+
                                         }
                                         else{
                                             println("Password dose not match")
@@ -68,22 +102,12 @@ class LoginFragment : Fragment() {
 
                                         }
                                     }
-                                    /*
-                                    else{
-                                        Toast.makeText(context, "User dose not exist. " +
-                                                "You have to be registered",
-                                        Toast.LENGTH_LONG).show()
-                                    }
-
-                                     */
                                 }
 
                             }
                             else{
-                                Toast.makeText(context, "No user in database", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "User not found, please register", Toast.LENGTH_LONG).show()
                             }
-
-
 
                         }
                         override fun onCancelled(error: DatabaseError) {
@@ -91,7 +115,6 @@ class LoginFragment : Fragment() {
                         }
 
                     })
-
 
             }
             else{

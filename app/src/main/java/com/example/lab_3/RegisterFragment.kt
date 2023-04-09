@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import com.example.lab_3.databinding.FragmentRegisterBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.*
 
 class RegisterFragment : Fragment() {
@@ -57,9 +58,23 @@ class RegisterFragment : Fragment() {
                             //push newUser
                             userRef.setValue(newUser)
                                 .addOnSuccessListener {
-                                    Toast.makeText(context, "Succeeded!", Toast.LENGTH_LONG).show()
-                                }
+                                   /*
+                                    val snackbar = Snackbar.make(view,"Succeeded", Snackbar.LENGTH_LONG)
+                                    snackbar.setAction("UNDO"){
+                                        userRef.removeValue()
+                                    }
+                                    snackbar.show()
 
+                                    */
+
+
+                                   Snackbar.make(view, "Succeeded", Snackbar.LENGTH_LONG).setAction("UNDO",
+                                  // UndoListener(newUser = userRef)).show()
+                                      // UndoListener(userRef.child(regUsername))).show()
+                                       UndoListener(userRef, regUsername)).show()
+
+
+                                }
                         }
 
                     }
