@@ -16,6 +16,19 @@
     <string name="tv_username">Username</string>
     <string name="my_quote_text">my quote text</string>
     <string name="represents_profile_picture">represents profile picture</string>
+    <string name="tv_MY_PROFILE">MY PROFILE</string>
+    <string name="write_blog">write blog</string>
+    <string name="tv_profiletext">You must do the thing you think you cannot do</string>
+    <string name="tv_logout">logout</string>
+    <string name="tv_register">register</string>
+
+    <string name="tv_goToProfile">go to profile</string>
+    <string name="hint_writeTitle">write title</string>
+    <string name="tv_title">Title</string>
+    <string name="write_title">write title</string>
+    <string name="tv_blogPost">Blog post</string>
+    <string name="et_writeBlogpost">Write blogpost</string>
+    <string name="btn_submitBlog">Submit Blog</string>
 
 
 </resources>

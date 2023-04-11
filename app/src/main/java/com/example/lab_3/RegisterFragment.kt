@@ -58,22 +58,11 @@ class RegisterFragment : Fragment() {
                             //push newUser
                             userRef.setValue(newUser)
                                 .addOnSuccessListener {
-                                   /*
-                                    val snackbar = Snackbar.make(view,"Succeeded", Snackbar.LENGTH_LONG)
-                                    snackbar.setAction("UNDO"){
-                                        userRef.removeValue()
-                                    }
-                                    snackbar.show()
-
-                                    */
-
 
                                    Snackbar.make(view, "Succeeded", Snackbar.LENGTH_LONG).setAction("UNDO",
                                   // UndoListener(newUser = userRef)).show()
                                       // UndoListener(userRef.child(regUsername))).show()
                                        UndoListener(userRef, regUsername)).show()
-
-
                                 }
                         }
 

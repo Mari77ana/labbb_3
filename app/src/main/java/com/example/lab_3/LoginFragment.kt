@@ -23,7 +23,7 @@ class LoginFragment : Fragment(){
     private val binding get() = _binding!!
 
     private lateinit var db: DatabaseReference
-   //private lateinit var userViewModel: UserViewModel
+
   // val userViewModel by viewModels <UserViewModel>()
    private val viewModel: UserViewModel by activityViewModels()
 
@@ -50,6 +50,7 @@ class LoginFragment : Fragment(){
         val etPassword = binding.etLoginUserPassword
         val btnLoginUser = binding.btnLoginUser
         var user : User
+        val tvRegister = binding.tvRegister
 
       btnLoginUser.setOnClickListener {
 
@@ -70,27 +71,11 @@ class LoginFragment : Fragment(){
                                             Toast.makeText(context, "WELCOME",
                                                 Toast.LENGTH_SHORT).show()
                                            // user.username?.let { it1 -> viewModel.getUsername(it1) }
-                                           //userViewModel.getUsername(username)
+
 
                                             viewModel.getUsername(username)
                                             println("Username: $user")
 
-                                            //viewModel.setUsername(username)
-                                            /*
-                                            lifecycleScope.launch {
-                                                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                                                    viewModel.uiState.collect() {
-                                                        viewModel.getUsername(user.username.toString())
-                                                         println("Username: $user")
-
-
-
-                                                    }
-
-                                                }
-                                            }
-
-                                            */
                                             Navigation.findNavController(view).navigate(
                                                 R.id.action_loginFragment_to_userProfileFragment)
 
@@ -120,6 +105,12 @@ class LoginFragment : Fragment(){
             else{
                 Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
             }
+
+        }
+
+        tvRegister.setOnClickListener {
+            Navigation.findNavController(view).navigate(
+                R.id.action_loginFragment_to_registerFragment)
 
         }
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.Navigation
 import com.example.lab_3.api.Quote
 import com.example.lab_3.api.QuoteTextApi
 import com.example.lab_3.databinding.FragmentUserProfileBinding
@@ -40,6 +41,7 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserProfileBinding.inflate(layoutInflater,container,false)
         val view = binding.root
         val tvQuote = binding.tvQuoteText
+        val tvLogout = binding.tvLogout
 
         /*
         //val viewModel: UserViewModel by activityViewModels()
@@ -52,66 +54,17 @@ class UserProfileFragment : Fragment() {
         })
 
  */
-        /*
-        // Observera förändringar på UIState
-        viewModel.uiState.collect() { uiState ->
-            // Uppdatera användargränssnittet med det nya användarnamnet
-            val username = uiState.username
-            tvDisplayUsername.text = username
-        }
 
-         */
 
        */
-      /*
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect() {
 
-                   tvDisplayUsername.text= viewModel.uiState.value.username.toString()
-                }
-
-            }
-
-        }
-
- */
-      /*
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { uiState ->
-                    tvDisplayUsername.text = uiState.username.toString()
-                }
-            }
-        }
-
- */
-        /*
-        // observera username variabeln i view modellen och uppdatera vyn när den ändras. Den funkar
-        lifecycleScope.launch {
-            viewModel.username.collect {
-                tvDisplayUsername.text = it
-            }
-        }
-
-         */
-        /*
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.username.collect {
-                    tvDisplayUsername.text = viewModel.username.value.toString()
-                }
-
-            }
-        }
-
-         */
         val tvDisplayUsername = binding.tvDisplayUsername
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.uiState.collect(){
                     tvDisplayUsername.text = viewModel.uiState.value.username.toString()
+
                 }
             }
         }
@@ -129,44 +82,30 @@ class UserProfileFragment : Fragment() {
                     println("My quote: $quote")
 
                     if(quote != null){
-                        tvQuote.text = quote.myProfileQuote.toString()
+                        tvQuote.text = quote.myProfileQuote
                     }
                 }
                 else{
                     println("ERROR")
                 }
             }
-
             override fun onFailure(call: Call<Quote>, t: Throwable) {
                 println(t.printStackTrace())
             }
 
         })
 
-
+        tvLogout.setOnClickListener {
+            Navigation.findNavController(view).navigate(
+                R.id.action_userProfileFragment_to_loginFragment)
+        }
 
 
         return view
 
 
 
-    /*
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                userViewModel.uiState.collect() {
-                   // userViewModel.getUsername(username = userViewModel.toString())
-                   // userViewModel.getUsername(username = _uiState.value.username)
-                    //userViewModel.uiState.value.username
-                    //userViewModel.getUsername(username = _uiState.value.username)
-                    tvDisplayUsername.text = userViewModel.uiState.value.username
 
-
-                }
-
-            }
-        }
-
-         */
 
     }
 
