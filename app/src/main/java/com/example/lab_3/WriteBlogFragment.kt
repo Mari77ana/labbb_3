@@ -92,7 +92,7 @@ class WriteBlogFragment : Fragment() {
         }
 
         btnRemoveBlog.setOnClickListener {
-            db.
+
         }
         tvGoToProfile.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_writeBlogFragment_to_userProfileFragment)
