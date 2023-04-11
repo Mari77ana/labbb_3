@@ -43,7 +43,7 @@ class RegisterFragment : Fragment() {
         btnRegisterUser.setOnClickListener {
             val regUsername = etRegisterUsername.text.toString()
             val regUserPassword = etRegisterUserPassword.text.toString()
-            newUser = User(regUsername, regUserPassword)
+            newUser = User(regUsername, regUserPassword, title = null, blogpost = null)
 
 
             if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
@@ -59,7 +59,7 @@ class RegisterFragment : Fragment() {
                             userRef.setValue(newUser)
                                 .addOnSuccessListener {
 
-                                   Snackbar.make(view, "Succeeded", Snackbar.LENGTH_LONG).setAction("UNDO",
+                                   Snackbar.make(view, "Succeeded! Now you can login", Snackbar.LENGTH_LONG).setAction("UNDO",
                                   // UndoListener(newUser = userRef)).show()
                                       // UndoListener(userRef.child(regUsername))).show()
                                        UndoListener(userRef, regUsername)).show()

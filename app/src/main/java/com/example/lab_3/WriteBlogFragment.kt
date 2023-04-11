@@ -5,21 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import com.example.lab_3.databinding.FragmentLoginBinding
 import com.example.lab_3.databinding.FragmentWriteBlogBinding
+import com.example.lab_3.viewModel.UserViewModel
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.*
 
 
 class WriteBlogFragment : Fragment() {
     private var _binding: FragmentWriteBlogBinding? = null
     private val binding get() = _binding!!
-
+    private lateinit var db: DatabaseReference
+    private val viewModel: UserViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-    }
-
-    override fun onCreateView(
+    }override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
@@ -27,9 +32,77 @@ class WriteBlogFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = binding.root
 
+
+        db = FirebaseDatabase
+            .getInstance("https://lab-3-8ee48-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("users") // är en rot som man pushar till "users", USER-TABLE, som @Entity i Room
+
+
         val etWriteTitle = binding.etWriteTitle
         val etWriteBlogPost = binding.etWriteBlogPost
         val btnSubmitBlog = binding.btnSubmitBlog
+        val btnRemoveBlog = binding.btnRemoveBlog
+        val tvGoToProfile = binding.tvMyProfile
+        var userBlog: User
+
+        btnSubmitBlog.setOnClickListener {
+            val title  = etWriteTitle.text.toString()
+            val blogPost = etWriteBlogPost.text.toString()
+            userBlog = User(title = title, blogpost = blogPost)
+
+
+            //val blogList =  ArrayList<User>()
+            if (title.isNotEmpty() && blogPost.isNotEmpty()){
+                //userBlog = User(title,blogPost)
+
+                val userTitle = db.child(title)
+                userTitle.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            println("Title exists")
+                            Toast.makeText(
+                                context,
+                                "Your title already exists. Try with another title",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        else{
+                            userTitle.setValue(userBlog)
+                                .addOnSuccessListener {
+                                    println("Succeeded")
+                                }
+
+                        }
+                        viewModel.getBlog(title,blogPost)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
+                    }
+
+
+
+                })
+
+            }
+            else{
+                Toast.makeText(context, "Please, fill in all fields", Toast.LENGTH_LONG).show()
+
+            }
+        }
+
+        btnRemoveBlog.setOnClickListener {
+            db.
+        }
+        tvGoToProfile.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_writeBlogFragment_to_userProfileFragment)
+
+        }
+
+
+
+
+
 
 
 

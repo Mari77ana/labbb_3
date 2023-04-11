@@ -47,5 +47,9 @@
         android:id="@+id/writeBlogFragment"
         android:name="com.example.lab_3.WriteBlogFragment"
         android:label="fragment_write_blog"
-        tools:layout="@layout/fragment_write_blog" />
+        tools:layout="@layout/fragment_write_blog" >
+        <action
+            android:id="@+id/action_writeBlogFragment_to_userProfileFragment"
+            app:destination="@id/userProfileFragment" />
+    </fragment>
 </navigation>

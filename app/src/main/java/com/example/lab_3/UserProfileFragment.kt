@@ -41,6 +41,7 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserProfileBinding.inflate(layoutInflater,container,false)
         val view = binding.root
         val tvQuote = binding.tvQuoteText
+        val btnGoToBlog = binding.btnGoToBlog
         val tvLogout = binding.tvLogout
 
         /*
@@ -69,6 +70,19 @@ class UserProfileFragment : Fragment() {
             }
         }
 
+        val tvDisplayTitle = binding.tvDisplayTitle
+        val tvDisplayBlogpost = binding.tvDisplayBlogPost
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.uiState.collect(){
+                    tvDisplayTitle.text = viewModel.uiState.value.title.toString()
+                    tvDisplayBlogpost.text = viewModel.uiState.value.blogpost.toString()
+                }
+            }
+        }
+
+
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.goprogram.ai")
             .addConverterFactory(GsonConverterFactory.create())
@@ -96,8 +110,15 @@ class UserProfileFragment : Fragment() {
         })
 
         tvLogout.setOnClickListener {
+            viewModel.clearUsername()
             Navigation.findNavController(view).navigate(
                 R.id.action_userProfileFragment_to_loginFragment)
+        }
+
+        btnGoToBlog.setOnClickListener {
+            Navigation.findNavController(view).navigate(
+                R.id.action_userProfileFragment_to_writeBlogFragment
+            )
         }
 
 

@@ -14,7 +14,6 @@ class UserViewModel: ViewModel() {
     val uiState: StateFlow<UserUiState> = _uiState.asStateFlow()
 
 
-
     /*
     fun setUsername(newUsername: String) {
         _username.value = newUsername
@@ -26,10 +25,29 @@ class UserViewModel: ViewModel() {
         _uiState.update {
                 state -> state.copy(
             username = state.username +
-                    usernameValue
+                    usernameValue,
         )
         }
 
+    }
+
+    fun clearUsername(){
+        _uiState.update {
+            state -> state.copy(
+            username = ""
+            )
+        }
+
+    }
+
+    fun getBlog(titleValue: String, blogpostValue: String){
+
+        _uiState.update {
+                state -> state.copy(
+            title = state.title + titleValue,
+            blogpost = state.blogpost + blogpostValue
+        )
+        }
     }
 
 }
