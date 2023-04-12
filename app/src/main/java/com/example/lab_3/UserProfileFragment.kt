@@ -123,11 +123,6 @@ class UserProfileFragment : Fragment() {
 
 
         return view
-
-
-
-
-
     }
 
     override fun onDestroy() {

@@ -43,12 +43,12 @@ class WriteBlogFragment : Fragment() {
         val btnSubmitBlog = binding.btnSubmitBlog
         val btnRemoveTitle = binding.btnRemoveTitle
         val tvGoToProfile = binding.tvMyProfile
-        var userBlog: User
+        var user: User
 
         btnSubmitBlog.setOnClickListener {
             val title  = etWriteTitle.text.toString()
             val blogPost = etWriteBlogPost.text.toString()
-            userBlog = User(title = title, blogpost = blogPost)
+            user = User(title,blogPost)
 
 
             //val blogList =  ArrayList<User>()
@@ -67,11 +67,10 @@ class WriteBlogFragment : Fragment() {
                             ).show()
                         }
                         else{
-                            userTitle.setValue(userBlog)
+                            userTitle.setValue(user)
                                 .addOnSuccessListener {
                                     println("Succeeded")
                                 }
-
                         }
                         viewModel.getBlog(title,blogPost)
                     }

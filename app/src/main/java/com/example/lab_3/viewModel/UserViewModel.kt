@@ -20,7 +20,6 @@ class UserViewModel: ViewModel() {
     }
 
      */
-
     fun getUsername(usernameValue: String) {
         _uiState.update {
                 state -> state.copy(
@@ -30,7 +29,6 @@ class UserViewModel: ViewModel() {
         }
 
     }
-
     fun clearUsername(){
         _uiState.update {
             state -> state.copy(
@@ -39,7 +37,6 @@ class UserViewModel: ViewModel() {
         }
 
     }
-
     fun getBlog(titleValue: String, blogpostValue: String){
 
         _uiState.update {
