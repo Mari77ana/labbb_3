@@ -41,7 +41,7 @@ class WriteBlogFragment : Fragment() {
         val etWriteTitle = binding.etWriteTitle
         val etWriteBlogPost = binding.etWriteBlogPost
         val btnSubmitBlog = binding.btnSubmitBlog
-        val btnRemoveBlog = binding.btnRemoveBlog
+        val btnRemoveTitle = binding.btnRemoveTitle
         val tvGoToProfile = binding.tvMyProfile
         var userBlog: User
 
@@ -55,7 +55,7 @@ class WriteBlogFragment : Fragment() {
             if (title.isNotEmpty() && blogPost.isNotEmpty()){
                 //userBlog = User(title,blogPost)
 
-                val userTitle = db.child(title)
+                val userTitle = db.child("user").child(title)
                 userTitle.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
@@ -80,8 +80,6 @@ class WriteBlogFragment : Fragment() {
                         Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
                     }
 
-
-
                 })
 
             }
@@ -91,20 +89,23 @@ class WriteBlogFragment : Fragment() {
             }
         }
 
-        btnRemoveBlog.setOnClickListener {
+        btnRemoveTitle.setOnClickListener {
+            //userBlog = User(title = title, blogpost = blogPost)
+           // val userTitle = db.child(etWriteTitle.text.toString())
+            val titleRef = db.child(etWriteTitle.text.toString())
+           titleRef.removeValue()
+                .addOnSuccessListener {
+                    println("Titeln har raderats från databasen")
+                }
+                .addOnFailureListener {
+                    println("Ett fel uppstod när bloggen skulle raderas från databasen: ${it.message}")
+                }
 
         }
         tvGoToProfile.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_writeBlogFragment_to_userProfileFragment)
 
         }
-
-
-
-
-
-
-
 
 
         return view

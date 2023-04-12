@@ -70,7 +70,7 @@ class LoginFragment : Fragment(){
                                             println("password  match")
                                             Toast.makeText(context, "WELCOME",
                                                 Toast.LENGTH_SHORT).show()
-                                           // user.username?.let { it1 -> viewModel.getUsername(it1) }
+
 
 
                                             viewModel.getUsername(username)

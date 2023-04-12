@@ -31,8 +31,8 @@
     <string name="btn_submitBlog">Submit Blog</string>
     <string name="tv_myTitle">my latest title</string>
     <string name="tv_displayBlogPost">my latest blogpost</string>
-    <string name="btn_removeBlog">remove blog</string>
     <string name="hint_writeBlogpost">write blogpost</string>
+    <string name="btn_removeTitle">remove title</string>
 
 
 </resources>
