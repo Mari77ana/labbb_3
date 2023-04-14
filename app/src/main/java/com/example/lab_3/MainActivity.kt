@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        /*   Denna kod är över flödig , när vi har våra setOnClicks
+        /*   Denna kod är överflödig , när vi har våra setOnClicks
 
         // DEFINE LISTENER,    skapar en egen listener, för att ändra på datan med onDataChange(),
         // som måste kopplas sedan med addvalueEventListener
@@ -81,11 +81,6 @@ class MainActivity : AppCompatActivity() {
        }
 
         */
-
-
-
-
-
 
 
 

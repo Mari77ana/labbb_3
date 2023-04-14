@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
@@ -36,6 +37,7 @@ class WriteBlogFragment : Fragment() {
         db = FirebaseDatabase
             .getInstance("https://lab-3-8ee48-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("users") // är en rot som man pushar till "users", USER-TABLE, som @Entity i Room
+            //.child("user")
 
 
         val etWriteTitle = binding.etWriteTitle
@@ -44,21 +46,29 @@ class WriteBlogFragment : Fragment() {
         val btnRemoveTitle = binding.btnRemoveTitle
         val tvGoToProfile = binding.tvMyProfile
         var user: User
+        var blog: Blog
+        //
 
         btnSubmitBlog.setOnClickListener {
             val title  = etWriteTitle.text.toString()
             val blogPost = etWriteBlogPost.text.toString()
-            user = User(title,blogPost)
-
+            blog = Blog(title,blogPost)
+            user = User(username = null, password = null, listOf(blog))
 
             //val blogList =  ArrayList<User>()
+
             if (title.isNotEmpty() && blogPost.isNotEmpty()){
                 //userBlog = User(title,blogPost)
 
-                val userTitle = db.child("user").child(title)
-                userTitle.addListenerForSingleValueEvent(object : ValueEventListener {
+                val userTitle = db.child("mariana")
+                println("Här är min userTitle$userTitle")
+                println(blog.toString())
+                userTitle.child(title).addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
+                            println(userTitle)
+                            println(blog.toString())
+                            println(user)
                             println("Title exists")
                             Toast.makeText(
                                 context,
@@ -67,12 +77,20 @@ class WriteBlogFragment : Fragment() {
                             ).show()
                         }
                         else{
-                            userTitle.setValue(user)
+
+                            println(user)
+                            println(userTitle)
+
+                            db.push()
+                          userTitle.setValue(user)
                                 .addOnSuccessListener {
                                     println("Succeeded")
                                 }
                         }
                         viewModel.getBlog(title,blogPost)
+
+                        etWriteTitle.setText("")
+                        etWriteBlogPost.setText("")
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -80,17 +98,16 @@ class WriteBlogFragment : Fragment() {
                     }
 
                 })
-
             }
             else{
                 Toast.makeText(context, "Please, fill in all fields", Toast.LENGTH_LONG).show()
-
             }
         }
 
         btnRemoveTitle.setOnClickListener {
             //userBlog = User(title = title, blogpost = blogPost)
            // val userTitle = db.child(etWriteTitle.text.toString())
+            val userTitle = db.child("Blog")
             val titleRef = db.child(etWriteTitle.text.toString())
            titleRef.removeValue()
                 .addOnSuccessListener {
@@ -120,3 +137,4 @@ class WriteBlogFragment : Fragment() {
 
 
 }
+

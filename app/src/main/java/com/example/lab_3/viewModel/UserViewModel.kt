@@ -47,6 +47,15 @@ class UserViewModel: ViewModel() {
         }
     }
 
+    fun clearBlog(){
+        _uiState.update {
+            state -> state.copy(
+            title = "",
+            blogpost = ""
+            )
+        }
+    }
+
 }
 
 

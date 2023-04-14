@@ -33,6 +33,7 @@ class RegisterFragment : Fragment() {
         db = FirebaseDatabase
             .getInstance("https://lab-3-8ee48-default-rtdb.europe-west1.firebasedatabase.app/")
             .getReference("users") // är en rot som man pushar till "users", USER-TABLE, som @Entity i Room
+
         val btnRegisterUser = binding.btnRegisterUser
         val etRegisterUsername = binding.etRegisterUsername
         val etRegisterUserPassword = binding.etRegisterUserPassword
@@ -56,6 +57,7 @@ class RegisterFragment : Fragment() {
                         }
                         else{
                             //push newUser
+                            db.push()   // kanske onödig
                             userRef.setValue(newUser)
                                 .addOnSuccessListener {
 

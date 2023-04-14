@@ -11,11 +11,10 @@ import androidx.lifecycle.ViewModel
     val blogList: List<Blog>? = null
 
     ){
-
-
-
-
-}
+     override fun toString(): String {
+         return "User(username=$username, password=$password, blogList=$blogList)"
+     }
+ }
 
 /*
  val blogList = listOf(){
