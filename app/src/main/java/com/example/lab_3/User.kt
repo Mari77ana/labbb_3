@@ -2,6 +2,7 @@ package com.example.lab_3
 
 import androidx.lifecycle.ViewModel
 
+// MODEL DATA
  class User (
     //Best Practise, gör om till optional ?, ifall värdet vi får ut fr databasen är null,
     // programmet hanterar det, men ibland måste man kolla att värdet inte ska vara null, kallas casting

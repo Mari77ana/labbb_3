@@ -48,7 +48,7 @@ class RegisterFragment : Fragment() {
 
 
             if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
-                val userRef = db.child(regUsername)
+                val userRef = db.child(regUsername) // referensen
                 userRef.addListenerForSingleValueEvent(object : ValueEventListener{
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if(dataSnapshot.exists()) {
