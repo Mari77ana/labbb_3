@@ -48,6 +48,7 @@ class WriteBlogFragment : Fragment() {
         val tvDisplayUserBlogpost = binding.tvDisplayUserBlogPost
         var user: User
         var blog: Blog
+        val blogList = ArrayList<Blog>()
 
 
 
@@ -56,8 +57,8 @@ class WriteBlogFragment : Fragment() {
             val blogPost = etWriteBlogPost.text.toString()
 
             if (title.isNotEmpty() && blogPost.isNotEmpty()) {
-                val blogList = ArrayList<Blog>()
                 blog = Blog(title, blogPost)
+                blogList.add(blog)
 
 
                 val userTitle = db.child("My Blog").child(title)
@@ -68,17 +69,30 @@ class WriteBlogFragment : Fragment() {
                             Toast.makeText(context, "Your title already exists", Toast.LENGTH_SHORT)
                                 .show()
                         } else {
-                            blogList.add(blog)
-                            println("My blogList: $blogList")
                             db.push()
                             userTitle.setValue(blog)
                                 .addOnSuccessListener {
                                     println("Succeeded!")
                                 }
+                            // Skriv ut listan med blogginlägg
+                            for (blog in blogList){
+                                println("My for blogList$blogList")
+                            }
+                            val user = User()
+                            tvDisplayUserTitle.text = viewModel.uiState.value.title.toString()
+                            tvDisplayUserBlogpost.text = user.blogList.toString()
+                            //tvDisplayUserTitle.text = title
+                            //viewModel.getBlog(title, blogPost)
+
+
 
                         }
                         etWriteTitle.setText("")
                         etWriteBlogPost.setText("")
+
+
+
+
 
 
 
