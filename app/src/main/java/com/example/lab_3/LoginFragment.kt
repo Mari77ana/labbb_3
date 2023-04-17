@@ -52,14 +52,16 @@ class LoginFragment : Fragment(){
         var user : User
         val tvRegister = binding.tvRegister
 
+
       btnLoginUser.setOnClickListener {
 
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
+            user = User(username,password, )
 
             if (username.isNotEmpty() && password.isNotEmpty()){
                 // Check username in database with addListenerForSingelValuEvent
-                db.orderByChild("username").equalTo(username)
+                db.orderByChild("username").equalTo(username) // check all users with orderByChild
                     .addListenerForSingleValueEvent(object : ValueEventListener{
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             if (dataSnapshot.exists()) {
@@ -70,8 +72,6 @@ class LoginFragment : Fragment(){
                                             println("password  match")
                                             Toast.makeText(context, "WELCOME",
                                                 Toast.LENGTH_SHORT).show()
-
-
 
                                             viewModel.getUsername(username)
                                             println("Username: $user")

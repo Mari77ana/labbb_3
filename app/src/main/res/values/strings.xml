@@ -28,11 +28,15 @@
     <string name="write_title">write title</string>
     <string name="tv_blogPost">Blog post</string>
     <string name="et_writeBlogpost">Write blogpost</string>
-    <string name="btn_submitBlog">Submit Blog</string>
+    <string name="btn_submitBlog">Post Blog</string>
     <string name="tv_myTitle">my latest title</string>
     <string name="tv_displayBlogPost">my latest blogpost</string>
     <string name="hint_writeBlogpost">write blogpost</string>
-    <string name="btn_removeTitle">remove title</string>
+
+    <string name="tv_myBlog">MY BLOG POST</string>
+    <string name="btn_remove_title">remove title</string>
+    <string name="tv_displayUserTitle">Display title</string>
+    <string name="tv_displayUserBlogpost">Display blogpost</string>
 
 
 </resources>

@@ -17,8 +17,3 @@ import androidx.lifecycle.ViewModel
      }
  }
 
-/*
- val blogList = listOf(){
-         Blog(title = null, blogpost = null)
-     }
- */

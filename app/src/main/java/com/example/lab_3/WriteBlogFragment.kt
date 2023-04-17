@@ -23,11 +23,13 @@ class WriteBlogFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-    }override fun onCreateView(
+    }
+
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentWriteBlogBinding.inflate(layoutInflater,container,false)
+        _binding = FragmentWriteBlogBinding.inflate(layoutInflater, container, false)
         // Inflate the layout for this fragment
         val view = binding.root
 
@@ -39,49 +41,86 @@ class WriteBlogFragment : Fragment() {
 
         val etWriteTitle = binding.etWriteTitle
         val etWriteBlogPost = binding.etWriteBlogPost
-        val btnSubmitBlog = binding.btnSubmitBlog
-        val btnRemoveTitle = binding.btnRemoveTitle
+        val btnPostBlog = binding.btnPostBlog
+        val btnRemoveTitle = binding.btnRemoveTitle   // har ingen knapp för den än
         val tvGoToProfile = binding.tvMyProfile
+        val tvDisplayUserTitle = binding.tvDisplayUserTitle
+        val tvDisplayUserBlogpost = binding.tvDisplayUserBlogPost
         var user: User
         var blog: Blog
 
 
 
-        btnSubmitBlog.setOnClickListener {
-            val title  = etWriteTitle.text.toString()
+        btnPostBlog.setOnClickListener {
+            val title = etWriteTitle.text.toString()
             val blogPost = etWriteBlogPost.text.toString()
 
-
-            if (title.isNotEmpty() && blogPost.isNotEmpty()){
+            if (title.isNotEmpty() && blogPost.isNotEmpty()) {
                 val blogList = ArrayList<Blog>()
-                blogList.add(Blog(title,blogPost))
-               
+                blog = Blog(title, blogPost)
 
-                val userTitle = db.child("mariana")
+
+                val userTitle = db.child("My Blog").child(title)
+                userTitle.child(title).addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(datasnapshot: DataSnapshot) {
+                        if (datasnapshot.exists()) {
+                            println("Title exists")
+                            Toast.makeText(context, "Your title already exists", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            blogList.add(blog)
+                            println("My blogList: $blogList")
+                            db.push()
+                            userTitle.setValue(blog)
+                                .addOnSuccessListener {
+                                    println("Succeeded!")
+                                }
+
+                        }
+                        etWriteTitle.setText("")
+                        etWriteBlogPost.setText("")
+
+
+
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        println("Error")
+                    }
+
+                })
+
+
+
+
+                /*
                  userTitle.addListenerForSingleValueEvent(object : ValueEventListener{
                   override fun onDataChange(dataSnapshot: DataSnapshot) {
                         user = User()
                         val getUser = dataSnapshot.getValue<User>()
                       if (getUser != null){
-                          user = User(getUser.username, getUser.password, blogList)
+                             getUser.blogList // Get existing blog post list
+                             blogList.add(Blog(title, blogPost)) // Add the new blog postser
+                      user = User(getUser.username, getUser.password, blogList)
                       }
-                        if (dataSnapshot.child("title").exists()) {
-                            Toast.makeText(context, "Your title already exists", Toast.LENGTH_SHORT)
-                                .show()
+                      etWriteTitle.setText("")
+                      etWriteBlogPost.setText("")
 
-                        }
-                        else{
-                            db.push()
-                            userTitle.setValue(user)
-                                .addOnSuccessListener {
-                                    println("Succeeded!")
-                                }
-                        }
+                      tvDisplayUserTitle.text = title
+                      tvDisplayUserBlogpost.text = blogPost
 
+                      /*
+                      // val blogList = ArrayList<Blog>()
+                      user.blogList?.forEach {
+                          tvDisplayUserTitle.text = title
+                          tvDisplayUserBlogpost.text = blogPost
 
+                      }
+
+                       */
                     }
                     override fun onCancelled(error: DatabaseError) {
-                         Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show() 
+                         Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
 
                     }
 
@@ -89,9 +128,10 @@ class WriteBlogFragment : Fragment() {
 
                }
 
+                 */
 
 
-                 /*
+                /*
                 val userTitle = db.child("mariana")
                 println("Här är min userTitle$userTitle")
                 userTitle.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -140,14 +180,65 @@ class WriteBlogFragment : Fragment() {
             }
 
                   */
-        }
+            }
 
+
+            /*
+            btnRemoveTitle.setOnClickListener {
+                val titleToDelete = etWriteTitle.text.toString()
+
+                if (titleToDelete.isNotEmpty()) {
+                    val blogReference = db.child("title")
+                    blogReference.child(titleToDelete)
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(datasnapshot: DataSnapshot) {
+                                if (datasnapshot.exists()) {
+                                    blogReference.child(titleToDelete).removeValue()
+                                        .addOnSuccessListener {
+                                            Toast.makeText(
+                                                context,
+                                                "Your blogpost is deleted",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+
+                                            etWriteTitle.setText("")
+                                        }
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Title dose not exists",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG)
+                                    .show()
+
+                            }
+
+                        })
+                }
+            }
+
+             */
+
+
+
+
+
+
+
+
+        }
         btnRemoveTitle.setOnClickListener {
             //userBlog = User(title = title, blogpost = blogPost)
-           // val userTitle = db.child(etWriteTitle.text.toString())
+            // val userTitle = db.child(etWriteTitle.text.toString())
             val userTitle = db.child("Blog")
             val titleRef = db.child(etWriteTitle.text.toString())
-           titleRef.removeValue()
+            titleRef.removeValue()
                 .addOnSuccessListener {
                     println("Titeln har raderats från databasen")
                 }
@@ -157,20 +248,19 @@ class WriteBlogFragment : Fragment() {
 
         }
         tvGoToProfile.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_writeBlogFragment_to_userProfileFragment)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_writeBlogFragment_to_userProfileFragment)
 
         }
-
-
         return view
-    }
 
+
+
+
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-
-
 }
-

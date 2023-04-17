@@ -15,13 +15,12 @@
             android:id="@+id/tv_myProfile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="@string/tv_goToProfile"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.02"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.022" />
@@ -30,14 +29,13 @@
             android:id="@+id/et_writeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
             android:ems="10"
             android:hint="@string/hint_writeTitle"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:padding="10dp"
-            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/tv_title"
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="@+id/tv_title"
@@ -47,10 +45,8 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="8dp"
 
+            android:layout_marginTop="16dp"
             android:text="@string/tv_title"
             android:textColor="@color/teal_200"
             android:textSize="22sp"
@@ -58,13 +54,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.022" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_blogPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="@string/tv_blogPost"
             android:textColor="@color/teal_200"
             android:textSize="22sp"
@@ -76,36 +72,77 @@
             android:id="@+id/et_writeBlogPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
             android:ems="10"
+            android:hint="@string/hint_writeBlogpost"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:padding="10dp"
-            android:hint="@string/hint_writeBlogpost"
-            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/tv_blogPost"
             app:layout_constraintStart_toStartOf="@+id/tv_blogPost"
             app:layout_constraintTop_toBottomOf="@+id/tv_blogPost" />
 
         <Button
-            android:id="@+id/btn_submitBlog"
+            android:id="@+id/btn_postBlog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:text="@string/btn_submitBlog"
             app:layout_constraintEnd_toEndOf="@+id/et_writeBlogPost"
             app:layout_constraintStart_toStartOf="@+id/et_writeBlogPost"
             app:layout_constraintTop_toBottomOf="@+id/et_writeBlogPost" />
 
+        <TextView
+            android:id="@+id/tv_myBlog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/tv_myBlog"
+            android:textColor="@color/teal_200"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btn_postBlog"
+            app:layout_constraintStart_toStartOf="@+id/btn_postBlog"
+            app:layout_constraintTop_toBottomOf="@+id/btn_postBlog"
+            app:layout_constraintVertical_bias="0.018" />
+
         <Button
             android:id="@+id/btn_removeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/btn_removeTitle"
-            app:layout_constraintEnd_toEndOf="@+id/btn_submitBlog"
-            app:layout_constraintStart_toStartOf="@+id/btn_submitBlog"
-            app:layout_constraintTop_toBottomOf="@+id/btn_submitBlog" />
+            android:text="@string/btn_remove_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_displayUserTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/tv_displayUserTitle"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/tv_myBlog"
+            app:layout_constraintStart_toStartOf="@+id/tv_myBlog"
+            app:layout_constraintTop_toBottomOf="@+id/tv_myBlog" />
+
+        <TextView
+            android:id="@+id/tv_displayUserBlogPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/tv_displayUserBlogpost"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/btn_removeTitle"
+            app:layout_constraintEnd_toEndOf="@+id/tv_displayUserTitle"
+            app:layout_constraintHorizontal_bias="0.479"
+            app:layout_constraintStart_toStartOf="@+id/tv_displayUserTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tv_displayUserTitle"
+            app:layout_constraintVertical_bias="0.073" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
