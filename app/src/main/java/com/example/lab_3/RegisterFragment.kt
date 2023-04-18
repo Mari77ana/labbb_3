@@ -38,15 +38,51 @@ class RegisterFragment : Fragment() {
         val etRegisterUsername = binding.etRegisterUsername
         val etRegisterUserPassword = binding.etRegisterUserPassword
         val btnToLoginPage = binding.btnLogPage
-        var newUser: User
+        //var newUser: User
 
 
         btnRegisterUser.setOnClickListener {
             val regUsername = etRegisterUsername.text.toString()
             val regUserPassword = etRegisterUserPassword.text.toString()
-            newUser = User(regUsername, regUserPassword)
+            val user = User(regUsername, regUserPassword,id = regUsername, blogList = null, )
+
+            // In your registration listener function:
+            if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
+                val userRef =
+                    db.child(user.id.toString()) // use the id field as user reference instead of username
+                userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            println("User exists")
+                            Toast.makeText(
+                                context,
+                                "User already exists. Try with another username",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            db.push() // the push method is unnecessary
+                            userRef.setValue(user)
+                                .addOnSuccessListener {
+                                    Snackbar.make(
+                                        view,
+                                        "Succeeded! Now you can login",
+                                        Snackbar.LENGTH_LONG
+                                    ).setAction(
+                                        "UNDO",
+                                        UndoListener(userRef, regUsername)
+                                    ).show()
+                                }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(context, "Something went wrong $it", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                })
 
 
+                /*
             if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
                 val userRef = db.child(regUsername) // referensen
                 userRef.addListenerForSingleValueEvent(object : ValueEventListener{
@@ -79,7 +115,8 @@ class RegisterFragment : Fragment() {
             else {
                 Toast.makeText(context, "Fill in all fields please!", Toast.LENGTH_LONG).show()
             }
-                 /*
+            */
+                /*
                 db.push()
                     .setValue(newUser)
                     .addOnSuccessListener {
@@ -87,7 +124,7 @@ class RegisterFragment : Fragment() {
                     }
 
                  */
-                   /*
+                /*
                 db.push()
                     .setValue(newUser)
                     .addOnSuccessListener {
@@ -99,7 +136,7 @@ class RegisterFragment : Fragment() {
                     }
 
                  */
-            /*
+                /*
             db.child("users").equalTo(regUsername).addListenerForSingleValueEvent(
                 object : ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -125,7 +162,7 @@ class RegisterFragment : Fragment() {
                 })
 
              */
-           /*
+                /*
               db.orderByChild("regUsername").equalTo(regUsername)
                   .addListenerForSingleValueEvent(object : ValueEventListener{
                   override fun onDataChange(snapshot: DataSnapshot) {
@@ -148,7 +185,10 @@ class RegisterFragment : Fragment() {
               })
 
              */
-
+            }
+            else{
+                Toast.makeText(context,"Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
         }
         btnToLoginPage.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment)

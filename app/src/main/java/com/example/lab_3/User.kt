@@ -9,11 +9,12 @@ import androidx.lifecycle.ViewModel
     // viktigt, så länge man kollar att värdet kommer in
     val username: String? = null,
     val password: String? = null,
+    val id: String? = null,
     val blogList: List<Blog>? = null
 
     ){
-     override fun toString(): String {
-         return "User(username=$username, password=$password, blogList=$blogList)"
-     }
- }
+    override fun toString(): String {
+        return "User(username=$username, password=$password, id='$id', blogList=$blogList)"
+    }
+}
 

@@ -51,15 +51,68 @@ class LoginFragment : Fragment(){
         val btnLoginUser = binding.btnLoginUser
         var user : User
         val tvRegister = binding.tvRegister
+        //var currentUser: User
 
 
       btnLoginUser.setOnClickListener {
 
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
-            user = User(username,password, )
 
-            if (username.isNotEmpty() && password.isNotEmpty()){
+          if (username.isNotEmpty() && password.isNotEmpty()){
+
+               //if (currentUser.id == username)
+               // Check for user existence using the id and concatenated username and password
+               db.orderByChild("username")
+                   .equalTo(username)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                if (dataSnapshot.exists()){
+                                //Toast.makeText(context,"user exist", Toast.LENGTH_LONG).show()
+
+                                for (userSnapshot in dataSnapshot.children){
+                                 val user = userSnapshot.getValue(User::class.java)
+                                 if (user != null){
+                                     val currentUser = User( username = user.username,password,
+                                         id = id.toString(), blogList = null)
+
+                                     if(user.username == username && user.password == password ) {
+                                            println("User match, Login Succeeded")
+                                            Toast.makeText(context,"Login Succeeded ", Toast.LENGTH_LONG).show()
+                                            //viewModel.getUsername(username)
+                                         viewModel.getCurrentUser(username,  "","","")
+
+                                            Navigation.findNavController(view).navigate(
+                                                R.id.action_loginFragment_to_userProfileFragment)
+
+                                        } else {
+                                            println("No match, try again")
+                                            Toast.makeText(
+                                                context, "No match! Try again",
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    }
+                                }
+                            }
+                            else{
+                                Toast.makeText(context, "User dose not exists, please register first", Toast.LENGTH_LONG).show()
+                            }
+
+
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
+                        }
+                    })
+            }
+            else{
+                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
+            }
+
+
+              /*
                 // Check username in database with addListenerForSingelValuEvent
                 db.orderByChild("username").equalTo(username) // check all users with orderByChild
                     .addListenerForSingleValueEvent(object : ValueEventListener{
@@ -100,13 +153,12 @@ class LoginFragment : Fragment(){
                         }
 
                     })
+                */
 
             }
-            else{
-                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
-            }
 
-        }
+
+
 
         tvRegister.setOnClickListener {
             Navigation.findNavController(view).navigate(

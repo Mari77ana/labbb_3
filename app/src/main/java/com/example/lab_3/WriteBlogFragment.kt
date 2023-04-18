@@ -46,22 +46,26 @@ class WriteBlogFragment : Fragment() {
         val tvGoToProfile = binding.tvMyProfile
         val tvDisplayUserTitle = binding.tvDisplayUserTitle
         val tvDisplayUserBlogpost = binding.tvDisplayUserBlogPost
-        var user: User
+
         var blog: Blog
         val blogList = ArrayList<Blog>()
+
 
 
 
         btnPostBlog.setOnClickListener {
             val title = etWriteTitle.text.toString()
             val blogPost = etWriteBlogPost.text.toString()
+            viewModel.getCurrentUser(title,blogPost,blogPost, id = "")
 
             if (title.isNotEmpty() && blogPost.isNotEmpty()) {
                 blog = Blog(title, blogPost)
                 blogList.add(blog)
+                viewModel.clearBlog()
 
 
-                val userTitle = db.child("My Blog").child(title)
+
+                val userTitle = db.child("Blogs").child(title)
                 userTitle.child(title).addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(datasnapshot: DataSnapshot) {
                         if (datasnapshot.exists()) {
@@ -79,9 +83,10 @@ class WriteBlogFragment : Fragment() {
                                 println("My for blogList$blogList")
                             }
                             val user = User()
-                            tvDisplayUserTitle.text = viewModel.uiState.value.title.toString()
+                            //tvDisplayUserTitle.text = viewModel.uiState.value.title.toString()
                             tvDisplayUserBlogpost.text = user.blogList.toString()
-                            //tvDisplayUserTitle.text = title
+                            tvDisplayUserTitle.text = title
+
                             //viewModel.getBlog(title, blogPost)
 
 
@@ -91,11 +96,6 @@ class WriteBlogFragment : Fragment() {
                         etWriteBlogPost.setText("")
 
 
-
-
-
-
-
                     }
 
                     override fun onCancelled(error: DatabaseError) {
@@ -103,6 +103,7 @@ class WriteBlogFragment : Fragment() {
                     }
 
                 })
+
 
 
 
@@ -189,11 +190,10 @@ class WriteBlogFragment : Fragment() {
 
 
             }
-            else{
-                Toast.makeText(context, "Please, fill in all fields", Toast.LENGTH_LONG).show()
+                 */
             }
-
-                  */
+            else{
+                Toast.makeText(context, "Please all fields have to be infilled", Toast.LENGTH_LONG).show()
             }
 
 

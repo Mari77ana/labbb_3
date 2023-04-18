@@ -13,6 +13,21 @@ class UserViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(UserUiState())
     val uiState: StateFlow<UserUiState> = _uiState.asStateFlow()
 
+    fun getCurrentUser(username: String, title: String, blogpost: String, id: String){
+        _uiState.update {
+            state -> state.copy(
+            username = username,
+            //username = state.username + username,
+            title = state.title + title,
+            blogpost = state.blogpost + blogpost,
+            //id = state.id + id,
+            id = id
+
+            )
+        }
+
+    }
+
 
     /*
     fun setUsername(newUsername: String) {
