@@ -48,9 +48,7 @@ class LoginFragment : Fragment(){
         //var currentUser: User
 
 
-
         btnLoginUser.setOnClickListener {
-
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
 

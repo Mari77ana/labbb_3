@@ -21,6 +21,7 @@ class RegisterFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -38,16 +39,17 @@ class RegisterFragment : Fragment() {
         val etRegisterUsername = binding.etRegisterUsername
         val etRegisterUserPassword = binding.etRegisterUserPassword
         val btnToLoginPage = binding.btnLogPage
-        //var newUser: User
+        var newUser: User
 
 
         btnRegisterUser.setOnClickListener {
             val regUsername = etRegisterUsername.text.toString()
             val regUserPassword = etRegisterUserPassword.text.toString()
-            val user = User(username = regUsername, password = regUserPassword,id = regUsername, blogList = null, )
+            val newUser = User(regUsername, regUserPassword)
 
-            // In your registration listener function:
+            //val user = User(username = regUsername, password = regUserPassword,id = regUsername, blogList = null, )
             if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
+                /*
                 println("My new User $user")  // detta funkar
                 val userRef =
                     db.child(user.id.toString()) // use the id field as user reference instead of username
@@ -81,62 +83,74 @@ class RegisterFragment : Fragment() {
                             .show()
                     }
                 })
+                */
 
-
-                /*
-            if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
                 val userRef = db.child(regUsername) // referensen
-                userRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if(dataSnapshot.exists()) {
+                        if (dataSnapshot.exists()) {
                             println("User exists")
-                            Toast.makeText(context, "User already exists. Try with another username", Toast.LENGTH_LONG).show()
-                        }
-                        else{
+                            Toast.makeText(
+                                context,
+                                "User already exists. Try with another username",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
                             //push newUser
                             db.push()   // kanske onödig
                             userRef.setValue(newUser)
                                 .addOnSuccessListener {
 
-                                   Snackbar.make(view, "Succeeded! Now you can login", Snackbar.LENGTH_LONG).setAction("UNDO",
-                                  // UndoListener(newUser = userRef)).show()
-                                      // UndoListener(userRef.child(regUsername))).show()
-                                       UndoListener(userRef, regUsername)).show()
+                                    Snackbar.make(
+                                        view,
+                                        "Succeeded! Now you can login",
+                                        Snackbar.LENGTH_LONG
+                                    ).setAction(
+                                        "UNDO",
+                                        // UndoListener(newUser = userRef)).show()
+                                        // UndoListener(userRef.child(regUsername))).show()
+                                        UndoListener(userRef, regUsername)
+                                    ).show()
                                 }
                         }
 
                     }
+
                     override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Something went wrong $it", Toast.LENGTH_LONG)
+                            .show()
                     }
 
                 })
                 println(newUser.toString())
+            } else {
+                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
-            else {
-                Toast.makeText(context, "Fill in all fields please!", Toast.LENGTH_LONG).show()
-            }
-            */
-                /*
-                db.push()
-                    .setValue(newUser)
-                    .addOnSuccessListener {
-                        Toast.makeText(context, "Succeeded", Toast.LENGTH_SHORT).show()
-                    }
+        }
 
-                 */
-                /*
-                db.push()
-                    .setValue(newUser)
-                    .addOnSuccessListener {
-                        Toast.makeText(context,"Succeeded", Toast.LENGTH_LONG).show()
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
+        btnToLoginPage.setOnClickListener {
+            Navigation.findNavController(view)
+                .navigate(R.id.action_registerFragment_to_loginFragment)
 
-                    }
+        }
 
-                 */
+        return view
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+}
+
+
+
+
+
+
+
                 /*
             db.child("users").equalTo(regUsername).addListenerForSingleValueEvent(
                 object : ValueEventListener{
@@ -186,21 +200,12 @@ class RegisterFragment : Fragment() {
               })
 
              */
-            }
-            else{
-                Toast.makeText(context,"Please fill in all fields", Toast.LENGTH_SHORT).show()
-            }
-        }
-        btnToLoginPage.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment)
 
-        }
 
-        return view
 
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-}
+
+
+
+
+
+

@@ -48,41 +48,29 @@ class WriteBlogFragment : Fragment() {
 
         var blog: Blog
         val blogList = ArrayList<Blog>()
-        val user = User()
+        val user: User
 
 
         btnPostBlog.setOnClickListener {
             val title = etWriteTitle.text.toString()
             val blogPost = etWriteBlogPost.text.toString()
 
-            //val currentUser = User(username = user.username, id.toString())
+           /*
             val currentUser = viewModel.getCurrentUser(
                 username = user.username.toString(),
                 title = title, blogpost = blogPost, blogList = ArrayList() , id = user.id.toString()
             )
 
+            */
+
             if (title.isNotEmpty() && blogPost.isNotEmpty()) {
-                //blog = Blog(title, blogPost)
-                //blogList.add(blog)
-                println("My blogList $blogList")
-
-                val blog = Blog(title = title, blogpost = blogPost, userId = user.id.toString() )
-
-                val userBlogRef = db.child("Blog")
-                userBlogRef.child(title).push()
-
-                userBlogRef.setValue(blog)
-
-                //if (user.username == userRef.toString())
+                blog = Blog(title, blogPost)
+                blogList.add(blog)
 
 
+                //println("My blogList efter loopen $blogList")
 
-
-
-
-
-               /*
-                val userBlogRef = db.child("Blog")
+                val userBlogRef = db.child("mariana").child(title)
                 userBlogRef.child(title)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(datasnapshot: DataSnapshot) {
@@ -105,77 +93,28 @@ class WriteBlogFragment : Fragment() {
                                 for (blog in blogList) {
                                     println("My for blogList$blogList")
                                 }
-                                tvDisplayUserTitle.text = title
+
+                                tvDisplayUserTitle.text = viewModel.uiState.value.title
+                                tvDisplayUserBlogpost.text =
+                                    viewModel.getBlog(titleValue = title, blogpostValue = blogPost).toString()
 
 
                             }
                             etWriteTitle.setText("")
                             etWriteBlogPost.setText("")
 
-
                         }
 
                         override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
+                            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
                         }
 
                     })
-                    */
 
             } else {
+                Toast.makeText(context, "Please fill in fields", Toast.LENGTH_SHORT).show()
                 println("Emty fields")
             }
-
-            //val userId = viewModel.getCurrentUser(title = title, blogpost = blogPost, id = id.toString(), username = "")
-            // val user = User(id = userId.toString(), blogList = ArrayList())
-            /*
-            if (title.isNotEmpty() && blogPost.isNotEmpty()) {
-                blog = Blog(title, blogPost)
-                blogList.add(blog)
-                viewModel.clearBlog()
-
-                //val userBlogListRef = db.child(currentUserId).child("blogList")
-
-                val userTitle= db.child(user.id.toString()).child("blogPosts")
-                //val userTitle = db.child("Blogs").child(title)
-                userTitle.child(title).addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(datasnapshot: DataSnapshot) {
-                        if (datasnapshot.exists()) {
-                            println("Title exists")
-                            Toast.makeText(context, "Your title already exists", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                        else {
-                            db.push()
-                            userTitle.setValue(blog)
-                                .addOnSuccessListener {
-                                    println("Succeeded!")
-                                }
-                            // Skriv ut listan med blogginlägg
-                            for (blog in blogList){
-                                println("My for blogList$blogList")
-                            }
-                            val user = User()
-                            //tvDisplayUserTitle.text = viewModel.uiState.value.title.toString()
-                            tvDisplayUserBlogpost.text = user.blogList.toString()
-                            tvDisplayUserTitle.text = title
-
-                            //viewModel.getBlog(title, blogPost)
-
-                        }
-                        etWriteTitle.setText("")
-                        etWriteBlogPost.setText("")
-
-
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        println("Error")
-                    }
-
-                })
-
-             */
 
 
             /*
