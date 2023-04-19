@@ -110,7 +110,7 @@ class UserProfileFragment : Fragment() {
         })
 
         tvLogout.setOnClickListener {
-            viewModel.clearUsername()
+           // viewModel.clearUsername()
             Navigation.findNavController(view).navigate(
                 R.id.action_userProfileFragment_to_loginFragment)
         }

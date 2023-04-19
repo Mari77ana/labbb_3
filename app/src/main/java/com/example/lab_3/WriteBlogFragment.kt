@@ -11,7 +11,6 @@ import androidx.navigation.Navigation
 import com.example.lab_3.databinding.FragmentWriteBlogBinding
 import com.example.lab_3.viewModel.UserViewModel
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 
 
 class WriteBlogFragment : Fragment() {
@@ -42,37 +41,111 @@ class WriteBlogFragment : Fragment() {
         val etWriteTitle = binding.etWriteTitle
         val etWriteBlogPost = binding.etWriteBlogPost
         val btnPostBlog = binding.btnPostBlog
-        val btnRemoveTitle = binding.btnRemoveTitle   // har ingen knapp för den än
+        val btnRemoveTitle = binding.btnRemoveTitle
         val tvGoToProfile = binding.tvMyProfile
         val tvDisplayUserTitle = binding.tvDisplayUserTitle
         val tvDisplayUserBlogpost = binding.tvDisplayUserBlogPost
 
         var blog: Blog
         val blogList = ArrayList<Blog>()
-
-
+        val user = User()
 
 
         btnPostBlog.setOnClickListener {
             val title = etWriteTitle.text.toString()
             val blogPost = etWriteBlogPost.text.toString()
-            viewModel.getCurrentUser(title,blogPost,blogPost, id = "")
 
+            //val currentUser = User(username = user.username, id.toString())
+            val currentUser = viewModel.getCurrentUser(
+                username = user.username.toString(),
+                title = title, blogpost = blogPost, blogList = ArrayList() , id = user.id.toString()
+            )
+
+            if (title.isNotEmpty() && blogPost.isNotEmpty()) {
+                //blog = Blog(title, blogPost)
+                //blogList.add(blog)
+                println("My blogList $blogList")
+
+                val blog = Blog(title = title, blogpost = blogPost, userId = user.id.toString() )
+
+                val userBlogRef = db.child("Blog")
+                userBlogRef.child(title).push()
+
+                userBlogRef.setValue(blog)
+
+                //if (user.username == userRef.toString())
+
+
+
+
+
+
+
+               /*
+                val userBlogRef = db.child("Blog")
+                userBlogRef.child(title)
+                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(datasnapshot: DataSnapshot) {
+                            if (datasnapshot.exists()) {
+                                println("Title exists")
+                                Toast.makeText(
+                                    context,
+                                    "Your title already exists",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+
+                            } else {
+                                db.push()
+                                userBlogRef.setValue(blog)
+                                    .addOnSuccessListener {
+                                        println("Succeeded!")
+                                    }
+                                // Skriv ut listan med blogginlägg
+                                for (blog in blogList) {
+                                    println("My for blogList$blogList")
+                                }
+                                tvDisplayUserTitle.text = title
+
+
+                            }
+                            etWriteTitle.setText("")
+                            etWriteBlogPost.setText("")
+
+
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
+                    */
+
+            } else {
+                println("Emty fields")
+            }
+
+            //val userId = viewModel.getCurrentUser(title = title, blogpost = blogPost, id = id.toString(), username = "")
+            // val user = User(id = userId.toString(), blogList = ArrayList())
+            /*
             if (title.isNotEmpty() && blogPost.isNotEmpty()) {
                 blog = Blog(title, blogPost)
                 blogList.add(blog)
                 viewModel.clearBlog()
 
+                //val userBlogListRef = db.child(currentUserId).child("blogList")
 
-
-                val userTitle = db.child("Blogs").child(title)
+                val userTitle= db.child(user.id.toString()).child("blogPosts")
+                //val userTitle = db.child("Blogs").child(title)
                 userTitle.child(title).addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(datasnapshot: DataSnapshot) {
                         if (datasnapshot.exists()) {
                             println("Title exists")
                             Toast.makeText(context, "Your title already exists", Toast.LENGTH_SHORT)
                                 .show()
-                        } else {
+                        }
+                        else {
                             db.push()
                             userTitle.setValue(blog)
                                 .addOnSuccessListener {
@@ -89,8 +162,6 @@ class WriteBlogFragment : Fragment() {
 
                             //viewModel.getBlog(title, blogPost)
 
-
-
                         }
                         etWriteTitle.setText("")
                         etWriteBlogPost.setText("")
@@ -104,11 +175,10 @@ class WriteBlogFragment : Fragment() {
 
                 })
 
+             */
 
 
-
-
-                /*
+            /*
                  userTitle.addListenerForSingleValueEvent(object : ValueEventListener{
                   override fun onDataChange(dataSnapshot: DataSnapshot) {
                         user = User()
@@ -146,7 +216,7 @@ class WriteBlogFragment : Fragment() {
                  */
 
 
-                /*
+            /*
                 val userTitle = db.child("mariana")
                 println("Här är min userTitle$userTitle")
                 userTitle.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -190,14 +260,18 @@ class WriteBlogFragment : Fragment() {
 
 
             }
-                 */
-            }
-            else{
-                Toast.makeText(context, "Please all fields have to be infilled", Toast.LENGTH_LONG).show()
-            }
 
 
-            /*
+        }
+        else{
+            Toast.makeText(context, "Please all fields have to be infilled", Toast.LENGTH_LONG)
+                .show()
+        }
+
+             */
+
+
+        /*
             btnRemoveTitle.setOnClickListener {
                 val titleToDelete = etWriteTitle.text.toString()
 
@@ -238,10 +312,6 @@ class WriteBlogFragment : Fragment() {
             }
 
              */
-
-
-
-
 
 
 

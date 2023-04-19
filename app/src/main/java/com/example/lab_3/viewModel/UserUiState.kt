@@ -1,10 +1,13 @@
 package com.example.lab_3.viewModel
 
-data class UserUiState (var id: String = "",
-                        var username: String = "",
-                        var password: String = "",
-                        var title: String = "",
-                        var blogpost: String = "",
+import com.example.lab_3.Blog
+
+data class UserUiState (var id: String? = null,
+                        var username: String? = null,
+                        var password: String? = null,
+                        var title: String? = null,
+                        var blogpost: String? = null,
+                        var blogList: List<Blog>? = emptyList()
                        ){
 
 

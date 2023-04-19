@@ -1,8 +1,7 @@
 package com.example.lab_3.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.lab_3.Blog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,21 +12,24 @@ class UserViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(UserUiState())
     val uiState: StateFlow<UserUiState> = _uiState.asStateFlow()
 
-    fun getCurrentUser(username: String, title: String, blogpost: String, id: String){
+    // Befintliga användaren
+    fun getCurrentUser(username: String, title: String, blogpost: String, id: String, blogList: ArrayList<Blog>?){
         _uiState.update {
             state -> state.copy(
             username = username,
+            password = state.password, // behåller samma lösenord
             //username = state.username + username,
-            title = state.title + title,
-            blogpost = state.blogpost + blogpost,
+            //title = state.title + title,
+            title = title,
+            blogList = state.blogList
+            //state.blogList?.plus((Blog(title,blogpost))) ?: blogList, // uppdaterar värdet så den inte är null
             //id = state.id + id,
-            id = id
+            ,id = id
 
             )
         }
 
     }
-
 
     /*
     fun setUsername(newUsername: String) {

@@ -7,16 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.*
 import androidx.navigation.Navigation
 import com.example.lab_3.databinding.FragmentLoginBinding
-import com.example.lab_3.databinding.FragmentRegisterBinding
 import com.example.lab_3.viewModel.UserViewModel
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment(){
     private var _binding: FragmentLoginBinding? = null
@@ -36,7 +30,7 @@ class LoginFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentLoginBinding.inflate(layoutInflater,container,false)
+        _binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
         val view = binding.root
 
         //val viewModel: UserViewModel by activityViewModels()
@@ -49,33 +43,65 @@ class LoginFragment : Fragment(){
         val etUsername = binding.etLoginUsername
         val etPassword = binding.etLoginUserPassword
         val btnLoginUser = binding.btnLoginUser
-        var user : User
+        var user: User
         val tvRegister = binding.tvRegister
         //var currentUser: User
 
 
-      btnLoginUser.setOnClickListener {
+
+        btnLoginUser.setOnClickListener {
 
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
 
-          if (username.isNotEmpty() && password.isNotEmpty()){
+            if (username.isNotEmpty() && password.isNotEmpty()) {
 
-               //if (currentUser.id == username)
-               // Check for user existence using the id and concatenated username and password
-               db.orderByChild("username")
-                   .equalTo(username)
-                    .addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                if (dataSnapshot.exists()){
-                                //Toast.makeText(context,"user exist", Toast.LENGTH_LONG).show()
+                db.orderByChild("username")
+                    .equalTo(username)
+                    .addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onDataChange(datasnapshot: DataSnapshot) {
+                            if (datasnapshot.exists()){
+                                for (userSnapshot in datasnapshot.children){
+                                    val user = userSnapshot.getValue(User::class.java)
+                                    if (user != null && user.username == username  && user.password == password){
+                                        println("User match")
+                                        Toast.makeText(context, "Match, Login Succeeded",
+                                            Toast.LENGTH_SHORT).show()
+                                        // calling getCurrentUser
+                                        viewModel.getCurrentUser(username, title = "", blogpost = "",
+                                            id = username, blogList = null )
+                                        Navigation.findNavController(view).navigate(
+                                            R.id.action_loginFragment_to_userProfileFragment)
+                                    }
+                                    else{
+                                        Toast.makeText(context, "Not correct", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
 
-                                for (userSnapshot in dataSnapshot.children){
-                                 val user = userSnapshot.getValue(User::class.java)
-                                 if (user != null){
-                                     val currentUser = User( username = user.username,password,
-                                         id = id.toString(), blogList = null)
+                            }
+                            else{
+                                Toast.makeText(context, "User doesn't exist. Go to register", Toast.LENGTH_LONG).show()
+                                println("User dosent exist, register first")
+                            }
+                        }
 
+                        override fun onCancelled(error: DatabaseError) {
+                           println("Something went wrong , Error")
+                        }
+
+                    })
+
+               }
+            else{
+                Toast.makeText(context, "Fill in all fields", Toast.LENGTH_SHORT).show()
+            }
+                // Check for user existence using the id and concatenated username and password
+
+
+                //Toast.makeText(context,"user exist", Toast.LENGTH_LONG).show()
+
+
+                /*
                                      if(user.username == username && user.password == password ) {
                                             println("User match, Login Succeeded")
                                             Toast.makeText(context,"Login Succeeded ", Toast.LENGTH_LONG).show()
@@ -92,27 +118,14 @@ class LoginFragment : Fragment(){
                                                 Toast.LENGTH_LONG
                                             ).show()
                                         }
-                                    }
-                                }
-                            }
-                            else{
-                                Toast.makeText(context, "User dose not exists, please register first", Toast.LENGTH_LONG).show()
-                            }
+
+                                      */
 
 
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(context,"Something went wrong $it", Toast.LENGTH_LONG).show()
-                        }
-                    })
-            }
-            else{
-                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_LONG).show()
             }
 
 
-              /*
+            /*
                 // Check username in database with addListenerForSingelValuEvent
                 db.orderByChild("username").equalTo(username) // check all users with orderByChild
                     .addListenerForSingleValueEvent(object : ValueEventListener{
@@ -154,26 +167,38 @@ class LoginFragment : Fragment(){
 
                     })
                 */
+            tvRegister.setOnClickListener {
+                Navigation.findNavController(view).navigate(
+                    R.id.action_loginFragment_to_registerFragment
+                )
 
             }
 
 
-
-
-        tvRegister.setOnClickListener {
-            Navigation.findNavController(view).navigate(
-                R.id.action_loginFragment_to_registerFragment)
-
-        }
-
-
         return view
-    }
-
+        }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
 
-}
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

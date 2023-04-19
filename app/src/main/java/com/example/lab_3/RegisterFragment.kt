@@ -44,10 +44,11 @@ class RegisterFragment : Fragment() {
         btnRegisterUser.setOnClickListener {
             val regUsername = etRegisterUsername.text.toString()
             val regUserPassword = etRegisterUserPassword.text.toString()
-            val user = User(regUsername, regUserPassword,id = regUsername, blogList = null, )
+            val user = User(username = regUsername, password = regUserPassword,id = regUsername, blogList = null, )
 
             // In your registration listener function:
             if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {
+                println("My new User $user")  // detta funkar
                 val userRef =
                     db.child(user.id.toString()) // use the id field as user reference instead of username
                 userRef.addListenerForSingleValueEvent(object : ValueEventListener {
