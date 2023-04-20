@@ -66,8 +66,10 @@ class LoginFragment : Fragment(){
                                         Toast.makeText(context, "Match, Login Succeeded",
                                             Toast.LENGTH_SHORT).show()
                                         // calling getCurrentUser
-                                        viewModel.getCurrentUser(username, title = "", blogpost = "",
+                                        viewModel.setCurrentUser(username, title = "", blogpost = "",
                                             id = username, blogList = null )
+                                        //val bundle = Bundle()
+                                       // bundle.putString("username", username)
                                         Navigation.findNavController(view).navigate(
                                             R.id.action_loginFragment_to_userProfileFragment)
                                     }

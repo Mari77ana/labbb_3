@@ -28,7 +28,11 @@ class UserProfileFragment : Fragment() {
 
     //private val userViewModel by viewModels <UserViewModel>()
     private val _uiState = MutableStateFlow(UserUiState())
+    //  relations
     private val viewModel: UserViewModel by activityViewModels()
+
+    // Bundle , sätt i en texView för att displaya username (den user som loggar in)
+    // val username = argument?.getString("username")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,15 +60,14 @@ class UserProfileFragment : Fragment() {
 
  */
 
-
        */
 
         val tvDisplayUsername = binding.tvDisplayUsername
-
+        // LifecycleScope visar upp
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.uiState.collect(){
-                    tvDisplayUsername.text = viewModel.uiState.value.username.toString()
+                    tvDisplayUsername.text = viewModel.uiState.value.username.toString() // Funkar
 
                 }
             }
@@ -75,14 +78,14 @@ class UserProfileFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.uiState.collect(){
-                    tvDisplayTitle.text = viewModel.uiState.value.title.toString()
-                    tvDisplayBlogpost.text = viewModel.uiState.value.blogpost.toString()
+                    tvDisplayTitle.text = viewModel.uiState.value.title.toString() // Funkar
+                    tvDisplayBlogpost.text = viewModel.uiState.value.blogpost.toString() // Funkar
                 }
             }
         }
 
 
-
+        // (query - parameter)
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.goprogram.ai")
             .addConverterFactory(GsonConverterFactory.create())

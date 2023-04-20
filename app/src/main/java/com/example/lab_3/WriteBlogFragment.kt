@@ -66,58 +66,68 @@ class WriteBlogFragment : Fragment() {
             if (title.isNotEmpty() && blogPost.isNotEmpty()) {
                 blog = Blog(title, blogPost)
                 blogList.add(blog)
-
+                for (blog in blogList) {
+                    println("My for blogList$blogList")
+                }
 
                 //println("My blogList efter loopen $blogList")
 
-                val userBlogRef = db.child("mariana").child(title)
-                userBlogRef.child(title)
-                    .addListenerForSingleValueEvent(object : ValueEventListener {
-                        override fun onDataChange(datasnapshot: DataSnapshot) {
-                            if (datasnapshot.exists()) {
-                                println("Title exists")
-                                Toast.makeText(
-                                    context,
-                                    "Your title already exists",
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                // TODO - Smart cast to String is impossible - be aware
+                if (viewModel.uiState.value.username != null) {
 
-                            } else {
-                                db.push()
-                                userBlogRef.setValue(blog)
-                                    .addOnSuccessListener {
-                                        println("Succeeded!")
-                                    }
-                                // Skriv ut listan med blogginlägg
-                                for (blog in blogList) {
-                                    println("My for blogList$blogList")
+                    // TODO - PATHSTRING SHOULD BE VIEWMODEL.getUsername
+                    val userBlogRef = db.child(viewModel.uiState.value.username!!).child(title)
+                    userBlogRef.child(title)
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(datasnapshot: DataSnapshot) {
+                                if (datasnapshot.exists()) {
+                                    println("Title exists")
+                                    Toast.makeText(
+                                        context,
+                                        "Your title already exists",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+
+                                } else {
+                                    db.push()
+                                    userBlogRef.setValue(blog)
+                                        .addOnSuccessListener {
+                                            println("Succeeded!")
+                                        }
+                                    // Skriv ut listan med blogginlägg
+
+
+                                    tvDisplayUserTitle.text =
+                                        viewModel.uiState.value.title // Funkar den ?
+                                    tvDisplayUserBlogpost.text =
+                                        viewModel.getBlog(
+                                            titleValue = title,
+                                            blogpostValue = blogPost
+                                        ).toString()
+                                    // inte rätt
+
+
                                 }
-
-                                tvDisplayUserTitle.text = viewModel.uiState.value.title
-                                tvDisplayUserBlogpost.text =
-                                    viewModel.getBlog(titleValue = title, blogpostValue = blogPost).toString()
-
+                                etWriteTitle.setText("")
+                                etWriteBlogPost.setText("")
 
                             }
-                            etWriteTitle.setText("")
-                            etWriteBlogPost.setText("")
 
-                        }
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
-                        }
+                        })
 
-                    })
-
-            } else {
-                Toast.makeText(context, "Please fill in fields", Toast.LENGTH_SHORT).show()
-                println("Emty fields")
-            }
+                } else {
+                    Toast.makeText(context, "Please fill in fields", Toast.LENGTH_SHORT).show()
+                    println("Emty fields")
+                }
 
 
-            /*
+                /*
                  userTitle.addListenerForSingleValueEvent(object : ValueEventListener{
                   override fun onDataChange(dataSnapshot: DataSnapshot) {
                         user = User()
@@ -155,7 +165,7 @@ class WriteBlogFragment : Fragment() {
                  */
 
 
-            /*
+                /*
                 val userTitle = db.child("mariana")
                 println("Här är min userTitle$userTitle")
                 userTitle.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -210,7 +220,7 @@ class WriteBlogFragment : Fragment() {
              */
 
 
-        /*
+                /*
             btnRemoveTitle.setOnClickListener {
                 val titleToDelete = etWriteTitle.text.toString()
 
@@ -253,7 +263,7 @@ class WriteBlogFragment : Fragment() {
              */
 
 
-
+            }
 
         }
         btnRemoveTitle.setOnClickListener {
