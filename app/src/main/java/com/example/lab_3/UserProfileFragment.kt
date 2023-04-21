@@ -80,7 +80,7 @@ class UserProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.uiState.collect(){
                     tvDisplayTitle.text = viewModel.uiState.value.title.toString() // Funkar
-                    tvDisplayBlogpost.text = viewModel.uiState.value.blogpost.toString() // Funkar
+                    tvDisplayBlogpost.text = viewModel.uiState.value.blogList.toString() // Funkar
                 }
             }
         }

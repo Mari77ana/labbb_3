@@ -24,9 +24,9 @@
 
     <string name="tv_goToProfile">go to profile</string>
     <string name="hint_writeTitle">write title</string>
-    <string name="tv_title">Title</string>
+    <string name="tv_title">Titles</string>
     <string name="write_title">write title</string>
-    <string name="tv_blogPost">Blog post</string>
+    <string name="tv_blogPost">Blog posts</string>
     <string name="et_writeBlogpost">Write blogpost</string>
     <string name="btn_submitBlog">Post Blog</string>
     <string name="tv_myTitle">my latest title</string>
@@ -37,6 +37,7 @@
     <string name="btn_remove_title">remove title</string>
     <string name="tv_displayUserTitle">Display title</string>
     <string name="tv_displayUserBlogpost">Display blogpost</string>
+    <string name="et_titleToRemove">Title to remove</string>
 
 
 </resources>

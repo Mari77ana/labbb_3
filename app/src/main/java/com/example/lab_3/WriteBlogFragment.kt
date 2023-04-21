@@ -81,7 +81,7 @@ class WriteBlogFragment : Fragment() {
                 // TODO - Smart cast to String is impossible - be aware
                 // Om användarens namn finns ( för den som är inloggad)
                 if (viewModel.uiState.value.username != null && viewModel.uiState.value.title != null
-                    && viewModel.uiState.value.blogpost != null) {
+                    && viewModel.uiState.value.blogpost != null ) {
 
                     // TODO - PATHSTRING SHOULD BE VIEWMODEL.getUsername ,viewModel.uiState.value.username!!
                     // skapar en ny gren för titeln för inloggade användaren
@@ -91,12 +91,12 @@ class WriteBlogFragment : Fragment() {
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(datasnapshot: DataSnapshot) {
                                 if (datasnapshot.exists()) {
-                                    println("Title exists")
+                                    println("Title exists")   // koden kommer aldrig in här
                                     Toast.makeText(
                                         context,
                                         "Your title already exists",
                                         Toast.LENGTH_SHORT
-                                    ).show()  // koden kommer aldrig in här
+                                    ).show()
 
                                 }
                                 else {
@@ -116,10 +116,11 @@ class WriteBlogFragment : Fragment() {
 
                                 tvDisplayUserTitle.text =
                                     viewModel.uiState.value.title // Funkar den ?
-                                tvDisplayUserBlogpost.text = viewModel.uiState.value.blogpost
+                                tvDisplayUserBlogpost.text = viewModel.uiState.value.blogList.toString()
 
 
                                 etWriteTitle.setText("")
+
                                 etWriteBlogPost.setText("")
 
                             }
