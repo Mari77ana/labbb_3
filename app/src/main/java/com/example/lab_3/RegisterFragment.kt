@@ -45,7 +45,7 @@ class RegisterFragment : Fragment() {
         btnRegisterUser.setOnClickListener {
             val regUsername = etRegisterUsername.text.toString()
             val regUserPassword = etRegisterUserPassword.text.toString()
-            val newUser = User(regUsername, regUserPassword)
+             newUser = User(regUsername, regUserPassword)
 
             //val user = User(username = regUsername, password = regUserPassword,id = regUsername, blogList = null, )
             if (regUsername.isNotEmpty() && regUserPassword.isNotEmpty()) {

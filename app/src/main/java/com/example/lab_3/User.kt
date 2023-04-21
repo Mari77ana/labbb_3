@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
     val username: String? = null,
     val password: String? = null,
     val id: String? = null,
-    val blogList: List<Blog>? = null
+    val blogList: ArrayList<Blog>? = null
 
     ){
     override fun toString(): String {

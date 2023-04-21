@@ -66,22 +66,22 @@ class LoginFragment : Fragment(){
                                         Toast.makeText(context, "Match, Login Succeeded",
                                             Toast.LENGTH_SHORT).show()
                                         // calling getCurrentUser
-                                        viewModel.setCurrentUser(username, title = "", blogpost = "",
-                                            id = username, blogList = null )
+                                        viewModel.setCurrentUser(user.username, title = "", blogpost = "",
+                                           id = user.username, blogList = null)
                                         //val bundle = Bundle()
                                        // bundle.putString("username", username)
                                         Navigation.findNavController(view).navigate(
                                             R.id.action_loginFragment_to_userProfileFragment)
                                     }
                                     else{
-                                        Toast.makeText(context, "Not correct", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "Check username or password", Toast.LENGTH_SHORT).show()
                                     }
                                 }
 
                             }
                             else{
-                                Toast.makeText(context, "User doesn't exist. Go to register", Toast.LENGTH_LONG).show()
-                                println("User dosent exist, register first")
+                                Toast.makeText(context, "No match, user not found, go to register", Toast.LENGTH_LONG).show()
+                                println("No match")
                             }
                         }
 
@@ -91,7 +91,7 @@ class LoginFragment : Fragment(){
 
                     })
 
-               }
+            }
             else{
                 Toast.makeText(context, "Fill in all fields", Toast.LENGTH_SHORT).show()
             }

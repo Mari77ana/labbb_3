@@ -13,20 +13,23 @@ class UserViewModel: ViewModel() {
     val uiState: StateFlow<UserUiState> = _uiState.asStateFlow()
 
     // Befintliga användaren
-    fun setCurrentUser(username: String, title: String, blogpost: String, id: String, blogList: ArrayList<Blog>?){
+    fun setCurrentUser(username: String, title: String, blogpost: String, id: String, blogList: ArrayList<Blog>?) {
         _uiState.update {
             state -> state.copy(
-            username = username,
+            username = username,  // username = username
             password = state.password, // behåller samma lösenord
             //username = state.username + username,
             //title = state.title + title,
             title = title,
-            blogList = state.blogList
+            blogpost = blogpost,
+            blogList = blogList
+            //blogList = state.blogList hade den innan
             //state.blogList?.plus((Blog(title,blogpost))) ?: blogList, // uppdaterar värdet så den inte är null
             //id = state.id + id,
             ,id = id
 
             )
+            //username: String, title: String, blogpost: String, id: String, blogList: ArrayList<Blog?>?
         }
 
     }
@@ -37,11 +40,11 @@ class UserViewModel: ViewModel() {
     }
 
      */
-    fun setUsername(usernameValue: String) {
+    fun getUsername(username: String) {
         _uiState.update {
                 state -> state.copy(
-            username = state.username +
-                    usernameValue,
+            username = username
+
         )
         }
 
@@ -54,15 +57,19 @@ class UserViewModel: ViewModel() {
         }
 
     }
-    fun getBlog(titleValue: String, blogpostValue: String){
+
+
+    fun setBlog(titleValue: String, blogpostValue: String, blogListValue: ArrayList<Blog>, ){
 
         _uiState.update {
                 state -> state.copy(
             title = state.title + titleValue,
-            blogpost = state.blogpost + blogpostValue
+            blogpost = state.blogpost + blogpostValue,
+            blogList = state.blogList?.plus(blogListValue)
         )
         }
     }
+
 
     fun clearBlog(){
         _uiState.update {
@@ -74,6 +81,8 @@ class UserViewModel: ViewModel() {
     }
 
 }
+
+
 
 
 

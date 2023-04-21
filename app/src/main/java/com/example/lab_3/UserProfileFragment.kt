@@ -73,6 +73,7 @@ class UserProfileFragment : Fragment() {
             }
         }
 
+
         val tvDisplayTitle = binding.tvDisplayTitle
         val tvDisplayBlogpost = binding.tvDisplayBlogPost
         lifecycleScope.launch {
@@ -83,6 +84,8 @@ class UserProfileFragment : Fragment() {
                 }
             }
         }
+
+
 
 
         // (query - parameter)

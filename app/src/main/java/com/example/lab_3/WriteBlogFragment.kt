@@ -7,15 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
 import com.example.lab_3.databinding.FragmentWriteBlogBinding
 import com.example.lab_3.viewModel.UserViewModel
 import com.google.firebase.database.*
+import kotlinx.coroutines.launch
 
 
 class WriteBlogFragment : Fragment() {
     private var _binding: FragmentWriteBlogBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var db: DatabaseReference
     private val viewModel: UserViewModel by activityViewModels()
 
@@ -31,7 +36,6 @@ class WriteBlogFragment : Fragment() {
         _binding = FragmentWriteBlogBinding.inflate(layoutInflater, container, false)
         // Inflate the layout for this fragment
         val view = binding.root
-
 
         db = FirebaseDatabase
             .getInstance("https://lab-3-8ee48-default-rtdb.europe-west1.firebasedatabase.app/")
@@ -55,6 +59,7 @@ class WriteBlogFragment : Fragment() {
             val title = etWriteTitle.text.toString()
             val blogPost = etWriteBlogPost.text.toString()
 
+
            /*
             val currentUser = viewModel.getCurrentUser(
                 username = user.username.toString(),
@@ -69,14 +74,19 @@ class WriteBlogFragment : Fragment() {
                 for (blog in blogList) {
                     println("My for blogList$blogList")
                 }
+                viewModel.setBlog(title, blogPost, blogList)
 
-                //println("My blogList efter loopen $blogList")
+                println("My blogList efter loopen $blogList")
 
                 // TODO - Smart cast to String is impossible - be aware
-                if (viewModel.uiState.value.username != null) {
+                // Om användarens namn finns ( för den som är inloggad)
+                if (viewModel.uiState.value.username != null && viewModel.uiState.value.title != null
+                    && viewModel.uiState.value.blogpost != null) {
 
-                    // TODO - PATHSTRING SHOULD BE VIEWMODEL.getUsername
-                    val userBlogRef = db.child(viewModel.uiState.value.username!!).child(title)
+                    // TODO - PATHSTRING SHOULD BE VIEWMODEL.getUsername ,viewModel.uiState.value.username!!
+                    // skapar en ny gren för titeln för inloggade användaren
+                    //viewModel.getBlog(title, blogPost)
+                    val userBlogRef = db.child(viewModel.uiState.value.username.toString()).child(title)
                     userBlogRef.child(title)
                         .addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(datasnapshot: DataSnapshot) {
@@ -86,34 +96,33 @@ class WriteBlogFragment : Fragment() {
                                         context,
                                         "Your title already exists",
                                         Toast.LENGTH_SHORT
-                                    )
-                                        .show()
+                                    ).show()  // koden kommer aldrig in här
 
-                                } else {
+                                }
+                                else {
                                     db.push()
                                     userBlogRef.setValue(blog)
                                         .addOnSuccessListener {
                                             println("Succeeded!")
                                         }
-                                    // Skriv ut listan med blogginlägg
-
-
-                                    tvDisplayUserTitle.text =
-                                        viewModel.uiState.value.title // Funkar den ?
-                                    tvDisplayUserBlogpost.text =
-                                        viewModel.getBlog(
-                                            titleValue = title,
-                                            blogpostValue = blogPost
-                                        ).toString()
-                                    // inte rätt
-
-
                                 }
+                                /*
+                                val user= User()
+                                viewModel.setCurrentUser(username = user.username.toString(), title = title, blogpost = blogPost,
+                                    id = "", blogList = blogList )
+
+                                 */
+
+
+                                tvDisplayUserTitle.text =
+                                    viewModel.uiState.value.title // Funkar den ?
+                                tvDisplayUserBlogpost.text = viewModel.uiState.value.blogpost
+
+
                                 etWriteTitle.setText("")
                                 etWriteBlogPost.setText("")
 
                             }
-
                             override fun onCancelled(error: DatabaseError) {
                                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT)
                                     .show()
@@ -122,7 +131,7 @@ class WriteBlogFragment : Fragment() {
                         })
 
                 } else {
-                    Toast.makeText(context, "Please fill in fields", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "No such user, please login", Toast.LENGTH_SHORT).show()
                     println("Emty fields")
                 }
 
@@ -134,7 +143,7 @@ class WriteBlogFragment : Fragment() {
                         val getUser = dataSnapshot.getValue<User>()
                       if (getUser != null){
                              getUser.blogList // Get existing blog post list
-                             blogList.add(Blog(title, blogPost)) // Add the new blog postser
+                             blogList.add(Blog(title, blogPost)) // Add the new blog poster
                       user = User(getUser.username, getUser.password, blogList)
                       }
                       etWriteTitle.setText("")
@@ -163,7 +172,6 @@ class WriteBlogFragment : Fragment() {
                }
 
                  */
-
 
                 /*
                 val userTitle = db.child("mariana")
@@ -206,19 +214,13 @@ class WriteBlogFragment : Fragment() {
                     }
 
                 })
+             }
 
 
-            }
+             }
 
-
-        }
-        else{
-            Toast.makeText(context, "Please all fields have to be infilled", Toast.LENGTH_LONG)
-                .show()
-        }
 
              */
-
 
                 /*
             btnRemoveTitle.setOnClickListener {
@@ -264,12 +266,16 @@ class WriteBlogFragment : Fragment() {
 
 
             }
+            else{
+                Toast.makeText(context, "Please, fill in all fields", Toast.LENGTH_LONG)
+                    .show()
+            }
 
         }
         btnRemoveTitle.setOnClickListener {
             //userBlog = User(title = title, blogpost = blogPost)
             // val userTitle = db.child(etWriteTitle.text.toString())
-            val userTitle = db.child("Blog")
+            val userTitle = db.child(viewModel.uiState.value.title.toString())
             val titleRef = db.child(etWriteTitle.text.toString())
             titleRef.removeValue()
                 .addOnSuccessListener {
