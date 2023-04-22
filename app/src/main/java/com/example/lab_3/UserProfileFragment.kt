@@ -59,9 +59,7 @@ class UserProfileFragment : Fragment() {
         })
 
  */
-
        */
-
         val tvDisplayUsername = binding.tvDisplayUsername
         // LifecycleScope visar upp
         lifecycleScope.launch {
@@ -84,8 +82,6 @@ class UserProfileFragment : Fragment() {
                 }
             }
         }
-
-
 
 
         // (query - parameter)
