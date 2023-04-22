@@ -38,6 +38,9 @@
     <string name="tv_displayUserTitle">Display title</string>
     <string name="tv_displayUserBlogpost">Display blogpost</string>
     <string name="et_titleToRemove">Title to remove</string>
+    <string name="btn_myBlogs">My Blogs</string>
+    <string name="tv_myBlogs">my blogs</string>
+    <string name="tv_myName">user</string>
 
 
 </resources>

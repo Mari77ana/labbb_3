@@ -60,6 +60,119 @@ class WriteBlogFragment : Fragment() {
             val title = etWriteTitle.text.toString()
             val blogPost = etWriteBlogPost.text.toString()
 
+            if(title.isNotEmpty() && blogPost.isNotEmpty()){
+                blog = Blog(title, blogPost)
+                blogList.add(blog)
+                for (blog in blogList) {
+                    println("My blogList$blogList")
+                }
+
+                // TODO - Smart cast to String is impossible - be aware
+                // Om användarens namn finns ( för den som är inloggad)
+                if (viewModel.uiState.value.username != null && viewModel.uiState.value.title != null
+                    && viewModel.uiState.value.blogpost != null ){
+
+                    // TODO - PATHSTRING SHOULD BE VIEWMODEL.getUsername ,viewModel.uiState.value.username!!
+                    // skapar en ny gren för titeln för inloggade användaren
+                    val userBlogRef = db.child(viewModel.uiState.value.username.toString()).child("Blogs")
+                    userBlogRef.child("Blogs")
+                        .addListenerForSingleValueEvent(object :  ValueEventListener{
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                              if (dataSnapshot.exists() )  {
+                                  println("Title exists") // Koden kommer aldrig in här
+                                  Toast.makeText(context, "Your title name already exists, change to another",
+                                  Toast.LENGTH_SHORT).show()
+                              }
+                                else{
+                                    db.push()
+                                  userBlogRef.setValue(blogList)
+                                      .addOnSuccessListener {
+                                          Toast.makeText(context, "Pushed and Succeeded",
+                                              Toast.LENGTH_SHORT).show()
+                                      }
+                                }
+                                etWriteTitle.setText("")
+                                etWriteBlogPost.setText("")
+
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+
+                        })
+                    /*
+                    userBlogRef.get()
+                        .addOnSuccessListener {
+                            it.child("Blogs").value.toString()
+                            val userBlogList = ArrayList<Blog>()
+                            for (blog in userBlogList) {
+                                println("Title: ${blog.title}")
+                                println("Blog post: ${blog.blogpost}")
+                            }
+                            println("My blogListblogList$blogList")
+                            viewModel.uiState.value.blogList = userBlogList
+                            //tvDisplayUserBlogpost.text = viewModel.setBlog(title,blogPost,blogList).toString()
+                            tvDisplayUserBlogpost.text = viewModel.uiState.value.blogList.toString()
+
+                           // tvDisplayUserBlogpost.text = viewModel.uiState.value.blogList.toString()
+
+                        }
+                          */
+
+                }
+                else {
+                    Toast.makeText(context, "No such user, please login", Toast.LENGTH_SHORT).show()
+                    println("Empty fields")
+                }
+
+            } else{
+                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
+
+
+
+
+        }
+         // TODO följ grenen Blogs, titta om bloggar finns , Hämta klassen Blog, lägg in i blogList
+        // skapar en ny gren för titeln för inloggade användaren
+        val userBlogRef = db.child(viewModel.uiState.value.username.toString()).child("Blogs")
+        userBlogRef.child("Blogs")
+            .addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()){ // letar efter bloggar db
+                        val blogList = ArrayList<Blog>()
+                        for (blogs in dataSnapshot.children){
+                            val blog = blogs.getValue(Blog::class.java) // Hämtar klassen Blog
+                            if (blog != null)    {
+                                blogList.add(blog) // adda allar bloggar till blogList
+                            }
+                            else{
+                                Toast.makeText(context, "There is no blogs", Toast.LENGTH_SHORT).show()
+                            }
+
+                        }
+                        // Tilldela blogList
+                        viewModel.uiState.value.blogList = blogList
+                        tvDisplayUserBlogpost.text = viewModel.uiState.value.blogList.toString()
+                    }
+
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
+        //Följ denna
+        /*
+        btnPostBlog.setOnClickListener {
+            val title = etWriteTitle.text.toString()
+            val blogPost = etWriteBlogPost.text.toString()
+
 
            /*
             val currentUser = viewModel.getCurrentUser(
@@ -143,50 +256,7 @@ class WriteBlogFragment : Fragment() {
                     .show()
             }
 
-            btnRemoveTitle.setOnClickListener {
-                val titleToRemove = edTitleToRemove.text.toString()
-                if (titleToRemove.isNotEmpty()) {
-                    val currentUserRef = db.child(viewModel.uiState.value.username.toString())
-                    val titleRef = currentUserRef.child(titleToRemove)
-                    titleRef.addListenerForSingleValueEvent(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if (snapshot.exists()){
-                                titleRef.removeValue()
-                                    .addOnSuccessListener {
-                                        Toast.makeText(context, "Title removed", Toast.LENGTH_SHORT).show()
-                                    }
-                            }
-                            else{
-                                Toast.makeText(context, "Enter a title please to remove", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
-                        }
-
-                    })
-                } else {
-                    Toast.makeText(context, "Please enter a title to remove", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-
-
-
-
-
-
-
-
-
-        }
-
-
-
-
-
-
+           */
 
             /*
              userTitle.addListenerForSingleValueEvent(object : ValueEventListener{
@@ -274,49 +344,44 @@ class WriteBlogFragment : Fragment() {
 
              */
 
-                /*
-            btnRemoveTitle.setOnClickListener {
-                val titleToDelete = etWriteTitle.text.toString()
 
-                if (titleToDelete.isNotEmpty()) {
-                    val blogReference = db.child("title")
-                    blogReference.child(titleToDelete)
-                        .addListenerForSingleValueEvent(object : ValueEventListener {
-                            override fun onDataChange(datasnapshot: DataSnapshot) {
-                                if (datasnapshot.exists()) {
-                                    blogReference.child(titleToDelete).removeValue()
-                                        .addOnSuccessListener {
-                                            Toast.makeText(
-                                                context,
-                                                "Your blogpost is deleted",
-                                                Toast.LENGTH_LONG
-                                            ).show()
+        btnRemoveTitle.setOnClickListener {
+            val titleToRemove = edTitleToRemove.text.toString()
+            val userBlogRef = db.child(viewModel.uiState.value.username.toString()).child("Blogs")
 
-                                            etWriteTitle.setText("")
-                                        }
-                                } else {
-                                    Toast.makeText(
-                                        context,
-                                        "Title dose not exists",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                }
+            userBlogRef.addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                 for (blogDataSnapshot in dataSnapshot.children){
+                     val blog = blogDataSnapshot.getValue(Blog::class.java) // Class Blog
+                     if (blog != null) {
+                         // Går in i klassen blog, hämta titeln
+                         if (blog.title == titleToRemove){
+                             // letar efter titel med getReferens
+                             blogDataSnapshot.ref.removeValue()
+                                 .addOnSuccessListener {
+                                     Toast.makeText(context, "Title removed", Toast.LENGTH_SHORT).show()
+                                 }
 
-                            }
+                         }
+                         else{
+                             Toast.makeText(context, "Sorry no such title to remove", Toast.LENGTH_SHORT).show()
+                         }
+                         etWriteTitle.setText("")
 
-                            override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG)
-                                    .show()
+                     }
 
-                            }
+                 }
 
-                        })
+
                 }
-            }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT)
+                        .show()
+                }
 
-             */
+            })
 
-
+        }
 
 
         tvGoToProfile.setOnClickListener {

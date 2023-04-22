@@ -22,7 +22,7 @@ class UserViewModel: ViewModel() {
             //title = state.title + title,
             title = title,
             blogpost = blogpost,
-            blogList = blogList
+            blogList = state.blogList?.plus((Blog(title,blogpost)))
             //blogList = state.blogList hade den innan
             //state.blogList?.plus((Blog(title,blogpost))) ?: blogList, // uppdaterar värdet så den inte är null
             //id = state.id + id,
