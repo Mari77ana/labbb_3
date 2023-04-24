@@ -58,8 +58,7 @@ class UserViewModel: ViewModel() {
 
     }
 
-
-    fun setBlog(titleValue: String, blogpostValue: String, blogListValue: ArrayList<Blog>, ){
+    fun setBlog(titleValue: ArrayList<Blog>, blogpostValue: String, blogListValue: ArrayList<Blog>, ){
 
         _uiState.update {
                 state -> state.copy(
@@ -69,7 +68,6 @@ class UserViewModel: ViewModel() {
         )
         }
     }
-
 
     fun clearBlog(){
         _uiState.update {

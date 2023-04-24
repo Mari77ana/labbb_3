@@ -63,7 +63,7 @@ class WriteBlogFragment : Fragment() {
             if(title.isNotEmpty() && blogPost.isNotEmpty()){
                 blog = Blog(title, blogPost)
                 blogList.add(blog)
-                for (blog in blogList) {
+                for (blogs in blogList) {
                     println("My blogList$blogList")
                 }
 
@@ -74,7 +74,7 @@ class WriteBlogFragment : Fragment() {
 
                     // TODO - PATHSTRING SHOULD BE VIEWMODEL.getUsername ,viewModel.uiState.value.username!!
                     // skapar en ny gren för titeln för inloggade användaren
-                    val userBlogRef = db.child(viewModel.uiState.value.username.toString()).child("Blogs")
+                    val userBlogRef = db.child(viewModel.uiState.value.username!!).child("Blogs")
                     userBlogRef.child("Blogs")
                         .addListenerForSingleValueEvent(object :  ValueEventListener{
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -132,12 +132,10 @@ class WriteBlogFragment : Fragment() {
             }
 
 
-
-
         }
-         // TODO följ grenen Blogs, titta om bloggar finns , Hämta klassen Blog, lägg in i blogList
+         // TODO path Blogs, if Blogs exists , get Blog, add
         // skapar en ny gren för titeln för inloggade användaren
-        val userBlogRef = db.child(viewModel.uiState.value.username.toString()).child("Blogs")
+        val userBlogRef = db.child(viewModel.uiState.value.username.toString())
         userBlogRef.child("Blogs")
             .addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -146,23 +144,22 @@ class WriteBlogFragment : Fragment() {
                         for (blogs in dataSnapshot.children){
                             val blog = blogs.getValue(Blog::class.java) // Hämtar klassen Blog
                             if (blog != null)    {
-                                blogList.add(blog) // adda allar bloggar till blogList
+                                blogList.add(blog) // addar alla bloggar till blogList
                             }
                             else{
-                                Toast.makeText(context, "There is no blogs", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "We find blogs", Toast.LENGTH_SHORT).show()
                             }
 
                         }
                         // Tilldela blogList
                         viewModel.uiState.value.blogList = blogList
-                        tvDisplayUserBlogpost.text = viewModel.uiState.value.blogList.toString()
+                        tvDisplayUserBlogpost.text =  viewModel.uiState.value.blogList.toString()
+
                     }
 
-
                 }
-
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    Toast.makeText(context,"Something went wrong", Toast.LENGTH_SHORT).show()
                 }
 
             })
@@ -295,7 +292,7 @@ class WriteBlogFragment : Fragment() {
 
              */
 
-                /*
+                /* // Hård kodning
                 val userTitle = db.child("mariana")
                 println("Här är min userTitle$userTitle")
                 userTitle.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -344,7 +341,7 @@ class WriteBlogFragment : Fragment() {
 
              */
 
-
+        // TODO Remove Title/ blogpost
         btnRemoveTitle.setOnClickListener {
             val titleToRemove = edTitleToRemove.text.toString()
             val userBlogRef = db.child(viewModel.uiState.value.username.toString()).child("Blogs")

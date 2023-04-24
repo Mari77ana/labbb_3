@@ -72,21 +72,9 @@ class UserProfileFragment : Fragment() {
 
  */
        */
+
+
         /*
-        val tvDisplayUsername = binding.tvDisplayUsername
-        // LifecycleScope visar upp
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.uiState.collect(){
-                    tvDisplayUsername.text = viewModel.uiState.value.username.toString() // Funkar
-
-                }
-            }
-        }
-
-         */
-
-
         val tvDisplayTitle = binding.tvDisplayTitle
         val tvDisplayBlogpost = binding.tvDisplayBlogPost
         lifecycleScope.launch {
@@ -98,7 +86,10 @@ class UserProfileFragment : Fragment() {
             }
         }
 
+         */
 
+
+        // TODO Get quote API
         // (query - parameter)
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.goprogram.ai")
@@ -126,27 +117,38 @@ class UserProfileFragment : Fragment() {
 
         })
 
-        val blogRef = db.child(viewModel.uiState.value.toString())
+        // TODO  Get username
         if (viewModel.uiState.value.username != null ){
-
             db.child(viewModel.uiState.value.username.toString()).child("Blogs")
                 .get()
                 .addOnSuccessListener {
                     val user = User(
                         it.child("username").value.toString(),
-                        it.child("Blogs").value.toString(),
-                        it.child("title").value.toString()
-
-
-                    )
-                  tvDisplayUsername.text= viewModel.uiState.value.username.toString()
+                        )
+                    tvDisplayUsername.text= viewModel.uiState.value.username.toString()
                 }
-
         }
 
+        // TODO Fetch blogs by button
+        btnMyBlogs.setOnClickListener {
+            if (viewModel.uiState.value.username != null) {
+                db.child(viewModel.uiState.value.username.toString()).child("Blogs")
+                    .get()
+                    .addOnSuccessListener { dataSnapshot ->
+                        if (dataSnapshot.exists()) {
+                            val blogList = dataSnapshot.value as ArrayList<Blog>
+
+                            tvBlogs.text= blogList.toString()
+                        } else {
+                            Toast.makeText(context, "No blogs found", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+        }
+        /*
         btnMyBlogs.setOnClickListener {
 
-            if (viewModel.uiState.value.username != null && viewModel.uiState.value.blogList.toString() != null){
+            if (viewModel.uiState.value.username != null ){
                 val userBlogRef = db.child(viewModel.uiState.value.username.toString()).child("Blogs")
                 userBlogRef.child("Blogs")
                     .addListenerForSingleValueEvent(object : ValueEventListener{
@@ -167,7 +169,6 @@ class UserProfileFragment : Fragment() {
 
                             }
 
-
                         }
 
                         override fun onCancelled(error: DatabaseError) {
@@ -184,6 +185,8 @@ class UserProfileFragment : Fragment() {
             }
 
         }
+
+         */
 
 
 
