@@ -38,35 +38,21 @@
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.507"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.026" />
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="16dp"
-            android:text="@string/tv_title"
-            android:textColor="@color/teal_200"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_myBlog"
-            app:layout_constraintStart_toStartOf="@+id/tv_myBlog"
-            app:layout_constraintTop_toBottomOf="@+id/tv_myBlog" />
+            app:layout_constraintVertical_bias="0.049" />
 
         <TextView
             android:id="@+id/tv_blogPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="36dp"
             android:text="@string/tv_blogPost"
             android:textColor="@color/teal_200"
             android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_displayUserTitle"
-            app:layout_constraintStart_toStartOf="@+id/tv_displayUserTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tv_displayUserTitle" />
+            app:layout_constraintEnd_toEndOf="@+id/btn_postBlog"
+            app:layout_constraintStart_toStartOf="@+id/btn_postBlog"
+            app:layout_constraintTop_toBottomOf="@+id/btn_postBlog" />
 
         <EditText
             android:id="@+id/et_writeBlogPost"
@@ -93,52 +79,25 @@
             app:layout_constraintStart_toStartOf="@+id/et_writeBlogPost"
             app:layout_constraintTop_toBottomOf="@+id/et_writeBlogPost" />
 
-        <TextView
-            android:id="@+id/tv_myBlog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/tv_myBlog"
-            android:textColor="@color/teal_200"
-            android:textSize="22sp"
-            app:layout_constraintEnd_toEndOf="@+id/btn_postBlog"
-            app:layout_constraintStart_toStartOf="@+id/btn_postBlog"
-            app:layout_constraintTop_toBottomOf="@+id/btn_postBlog" />
-
         <Button
             android:id="@+id/btn_removeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/btn_remove_title"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.485"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_removeTitle"
-            app:layout_constraintVertical_bias="0.125" />
-
-        <TextView
-            android:id="@+id/tv_displayUserTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/tv_displayUserTitle"
-            android:textColor="@color/white"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_title"
-            app:layout_constraintStart_toStartOf="@+id/tv_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+            app:layout_constraintEnd_toEndOf="@+id/et_removeTitle"
+            app:layout_constraintStart_toStartOf="@+id/et_removeTitle"
+            app:layout_constraintTop_toBottomOf="@+id/et_removeTitle" />
 
         <TextView
             android:id="@+id/tv_displayUserBlogPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/tv_displayUserBlogpost"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            android:layout_marginTop="20dp"
             android:background="@color/teal_700"
+            android:text="@string/tv_displayUserBlogpost"
+            android:textColor="#000000"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_blogPost"
             app:layout_constraintStart_toStartOf="@+id/tv_blogPost"
             app:layout_constraintTop_toBottomOf="@+id/tv_blogPost" />
@@ -148,16 +107,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:background="@color/white"
             android:ems="10"
+            android:hint="@string/et_titleToRemove"
             android:inputType="textPersonName"
             android:minHeight="48dp"
-            android:hint="@string/et_titleToRemove"
-            android:background="@color/white"
             android:padding="10dp"
             app:layout_constraintEnd_toEndOf="@+id/tv_displayUserBlogPost"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="@+id/tv_displayUserBlogPost"
             app:layout_constraintTop_toBottomOf="@+id/tv_displayUserBlogPost" />
+
+        <Button
+            android:id="@+id/btn_blogs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/get_blogs"
+            app:layout_constraintEnd_toEndOf="@+id/btn_removeTitle"
+            app:layout_constraintStart_toStartOf="@+id/btn_removeTitle"
+            app:layout_constraintTop_toBottomOf="@+id/btn_removeTitle" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

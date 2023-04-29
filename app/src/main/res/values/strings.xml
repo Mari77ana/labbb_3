@@ -41,6 +41,9 @@
     <string name="btn_myBlogs">My Blogs</string>
     <string name="tv_myBlogs">my blogs</string>
     <string name="tv_myName">user</string>
+    <string name="get_blogs">Get Blogs</string>
+    <string name="advice_id">Advice Id:</string>
+    <string name="id_number">Id number</string>
 
 
 </resources>

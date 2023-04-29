@@ -16,7 +16,7 @@
             android:id="@+id/et_registerUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="14dp"
             android:background="@color/white"
             android:ems="10"
             android:hint="@string/register_username"
@@ -24,16 +24,15 @@
             android:minHeight="48dp"
             android:padding="10dp"
             android:textColor="@color/teal_200"
-            app:layout_constraintBottom_toTopOf="@+id/et_registerUserPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/img_blogPicture"
+            app:layout_constraintStart_toStartOf="@+id/img_blogPicture"
+            app:layout_constraintTop_toBottomOf="@+id/img_blogPicture" />
 
         <EditText
             android:id="@+id/et_registerUserPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginTop="8dp"
             android:background="@color/white"
             android:ems="10"
             android:hint="@string/register_password"
@@ -41,49 +40,48 @@
             android:minHeight="48dp"
             android:padding="10dp"
             android:textColor="@color/teal_200"
-            app:layout_constraintBottom_toTopOf="@+id/btn_registerUser"
             app:layout_constraintEnd_toEndOf="@+id/et_registerUsername"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/et_registerUsername" />
+            app:layout_constraintStart_toStartOf="@+id/et_registerUsername"
+            app:layout_constraintTop_toBottomOf="@+id/et_registerUsername" />
 
         <Button
             android:id="@+id/btn_registerUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="72dp"
             android:text="@string/btn_registerUser"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="@+id/et_registerUserPassword"
+            app:layout_constraintStart_toStartOf="@+id/et_registerUserPassword"
+            app:layout_constraintTop_toBottomOf="@+id/et_registerUserPassword"
+            app:layout_constraintVertical_bias="0.237" />
 
         <TextView
             android:id="@+id/tv_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="32dp"
             android:text="@string/tv_welcome"
             android:textColor="@color/teal_200"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/img_blogPicture"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_logPage" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.091" />
 
         <ImageView
             android:id="@+id/img_blogPicture"
             android:layout_width="286dp"
             android:layout_height="266dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="20dp"
             android:contentDescription="@string/img_represents_blog_site"
             android:src="@drawable/to_blog_7408654_1920"
-            app:layout_constraintBottom_toTopOf="@+id/et_registerUsername"
             app:layout_constraintEnd_toEndOf="@+id/tv_welcome"
-            app:layout_constraintHorizontal_bias="0.516"
             app:layout_constraintStart_toStartOf="@+id/tv_welcome"
             app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
 

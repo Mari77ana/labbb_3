@@ -85,7 +85,7 @@ class RegisterFragment : Fragment() {
                 })
                 */
 
-                val userRef = db.child(regUsername) // referensen
+                val userRef = db.child(regUsername)// referensen
                 userRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {

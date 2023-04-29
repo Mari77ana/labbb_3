@@ -35,7 +35,6 @@
             android:contentDescription="@string/represents_profile_picture"
             android:src="@drawable/woman_1207674_1280"
             app:layout_constraintEnd_toEndOf="@+id/tv_profilText"
-            app:layout_constraintHorizontal_bias="0.494"
             app:layout_constraintStart_toStartOf="@+id/tv_profilText"
             app:layout_constraintTop_toBottomOf="@+id/tv_profilText" />
 
@@ -64,7 +63,6 @@
             android:textSize="25sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.022" />
@@ -73,14 +71,11 @@
             android:id="@+id/btn_goToBlog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="@string/write_blog"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/tv_displayBlogPost"
-            app:layout_constraintHorizontal_bias="0.444"
-            app:layout_constraintStart_toStartOf="@+id/tv_displayBlogPost"
-            app:layout_constraintTop_toBottomOf="@+id/tv_displayBlogPost"
-            app:layout_constraintVertical_bias="0.035" />
+            app:layout_constraintEnd_toEndOf="@+id/tv_quoteText"
+            app:layout_constraintStart_toStartOf="@+id/tv_quoteText"
+            app:layout_constraintTop_toBottomOf="@+id/tv_adviceId" />
 
         <TextView
             android:id="@+id/tv_profilText"
@@ -92,7 +87,6 @@
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_welcomeProfile"
-            app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="@+id/tv_welcomeProfile"
             app:layout_constraintTop_toBottomOf="@+id/tv_welcomeProfile" />
 
@@ -109,52 +103,50 @@
             app:layout_constraintStart_toEndOf="@+id/tv_welcomeProfile"
             app:layout_constraintTop_toTopOf="@+id/tv_welcomeProfile" />
 
-        <TextView
-            android:id="@+id/tv_displayTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/tv_myTitle"
-            android:textColor="@color/white"
-            android:textSize="19sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_quoteText"
-            app:layout_constraintStart_toStartOf="@+id/tv_quoteText"
-            app:layout_constraintTop_toBottomOf="@+id/tv_quoteText" />
-
-        <TextView
-            android:id="@+id/tv_displayBlogPost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/tv_displayBlogPost"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/tv_displayTitle"
-            app:layout_constraintStart_toStartOf="@+id/tv_displayTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tv_displayTitle" />
-
         <Button
             android:id="@+id/btn_myBlogs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/btn_myBlogs"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/btn_goToBlog"
-            app:layout_constraintHorizontal_bias="0.483"
             app:layout_constraintStart_toStartOf="@+id/btn_goToBlog"
-            app:layout_constraintTop_toBottomOf="@+id/btn_goToBlog"
-            app:layout_constraintVertical_bias="0.104" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_goToBlog" />
 
         <TextView
             android:id="@+id/tv_blogs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/tv_myBlogs"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/btn_myBlogs"
             app:layout_constraintStart_toStartOf="@+id/btn_myBlogs"
-            app:layout_constraintTop_toBottomOf="@+id/btn_myBlogs" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_myBlogs"
+            app:layout_constraintVertical_bias="0.136" />
+
+        <TextView
+            android:id="@+id/tv_textViewAdviceId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/advice_id"
+            android:textColor="@color/teal_200"
+            app:layout_constraintStart_toStartOf="@+id/tv_quoteText"
+            app:layout_constraintTop_toBottomOf="@+id/tv_quoteText" />
+
+        <TextView
+            android:id="@+id/tv_adviceId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/id_number"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_textViewAdviceId"
+            app:layout_constraintEnd_toEndOf="@+id/tv_quoteText"
+            app:layout_constraintStart_toEndOf="@+id/tv_textViewAdviceId"
+            app:layout_constraintTop_toBottomOf="@+id/tv_quoteText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

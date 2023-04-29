@@ -11,6 +11,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.Navigation
+import com.example.lab_3.api.Advice
+import com.example.lab_3.api.AdviceApi
+
 import com.example.lab_3.api.Quote
 import com.example.lab_3.api.QuoteTextApi
 import com.example.lab_3.databinding.FragmentUserProfileBinding
@@ -29,7 +32,7 @@ class UserProfileFragment : Fragment() {
 
 
     private lateinit var db: DatabaseReference
-    //private val userViewModel by viewModels <UserViewModel>()
+
     private val _uiState = MutableStateFlow(UserUiState())
     //  relations
     private val viewModel: UserViewModel by activityViewModels()
@@ -48,6 +51,7 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserProfileBinding.inflate(layoutInflater,container,false)
         val view = binding.root
         val tvQuote = binding.tvQuoteText
+        val tvQuoteId = binding.tvAdviceId
         val btnGoToBlog = binding.btnGoToBlog
         val tvLogout = binding.tvLogout
         val btnMyBlogs = binding.btnMyBlogs
@@ -85,10 +89,33 @@ class UserProfileFragment : Fragment() {
                 }
             }
         }
-
+https://api.adviceslip.com/advice/search/spiders
          */
+        // TODO GET ADVICE-API
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.adviceslip.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val randomAdvice = retrofit.create<AdviceApi>().getRandomAdvice()
+        randomAdvice.enqueue(object : Callback<Advice>{
+            override fun onResponse(call: Call<Advice>, response: Response<Advice>) {
+                if(response.isSuccessful){
+                    val advice = response.body()
+                    if (advice != null) {
+                        tvQuote.text = advice.slip.myAdvice.toString()
+                        tvQuoteId.text = advice.slip.myId.toString()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Advice>, t: Throwable) {
+               println("Something went wrong")
+            }
+
+        })
 
 
+         /*
         // TODO Get quote API
         // (query - parameter)
         val retrofit = Retrofit.Builder()
@@ -117,6 +144,8 @@ class UserProfileFragment : Fragment() {
 
         })
 
+          */
+
         // TODO  Get username
         if (viewModel.uiState.value.username != null ){
             db.child(viewModel.uiState.value.username.toString()).child("Blogs")
@@ -136,8 +165,7 @@ class UserProfileFragment : Fragment() {
                     .get()
                     .addOnSuccessListener { dataSnapshot ->
                         if (dataSnapshot.exists()) {
-                            val blogList = dataSnapshot.value as ArrayList<Blog>
-
+                            val blogList = dataSnapshot.value as ArrayList<*>
                             tvBlogs.text= blogList.toString()
                         } else {
                             Toast.makeText(context, "No blogs found", Toast.LENGTH_SHORT).show()
@@ -187,9 +215,6 @@ class UserProfileFragment : Fragment() {
         }
 
          */
-
-
-
 
         tvLogout.setOnClickListener {
            // viewModel.clearUsername()

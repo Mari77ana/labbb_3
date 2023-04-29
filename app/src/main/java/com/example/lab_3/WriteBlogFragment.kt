@@ -47,9 +47,10 @@ class WriteBlogFragment : Fragment() {
         val btnPostBlog = binding.btnPostBlog
         val btnRemoveTitle = binding.btnRemoveTitle
         val tvGoToProfile = binding.tvMyProfile
-        val tvDisplayUserTitle = binding.tvDisplayUserTitle
+        //val tvDisplayUserTitle = binding.tvDisplayUserTitle
         val tvDisplayUserBlogpost = binding.tvDisplayUserBlogPost
         val edTitleToRemove = binding.etRemoveTitle
+        val btnBlogs = binding.btnBlogs
 
         var blog: Blog
         val blogList = ArrayList<Blog>()
@@ -69,8 +70,8 @@ class WriteBlogFragment : Fragment() {
 
                 // TODO - Smart cast to String is impossible - be aware
                 // Om användarens namn finns ( för den som är inloggad)
-                if (viewModel.uiState.value.username != null && viewModel.uiState.value.title != null
-                    && viewModel.uiState.value.blogpost != null ){
+                if (viewModel.uiState.value.username != null
+                    ){
 
                     // TODO - PATHSTRING SHOULD BE VIEWMODEL.getUsername ,viewModel.uiState.value.username!!
                     // skapar en ny gren för titeln för inloggade användaren
@@ -91,6 +92,7 @@ class WriteBlogFragment : Fragment() {
                                               Toast.LENGTH_SHORT).show()
                                       }
                                 }
+
                                 etWriteTitle.setText("")
                                 etWriteBlogPost.setText("")
 
@@ -133,6 +135,7 @@ class WriteBlogFragment : Fragment() {
 
 
         }
+        /*
          // TODO path Blogs, if Blogs exists , get Blog, add
         // skapar en ny gren för titeln för inloggade användaren
         val userBlogRef = db.child(viewModel.uiState.value.username.toString())
@@ -145,15 +148,18 @@ class WriteBlogFragment : Fragment() {
                             val blog = blogs.getValue(Blog::class.java) // Hämtar klassen Blog
                             if (blog != null)    {
                                 blogList.add(blog) // addar alla bloggar till blogList
+                                viewModel.uiState.value.blogList = blogList
                             }
                             else{
                                 Toast.makeText(context, "We find blogs", Toast.LENGTH_SHORT).show()
                             }
 
                         }
-                        // Tilldela blogList
-                        viewModel.uiState.value.blogList = blogList
-                        tvDisplayUserBlogpost.text =  viewModel.uiState.value.blogList.toString()
+                        tvDisplayUserBlogpost.text = viewModel.uiState.value.blogList.toString()
+
+
+
+
 
                     }
 
@@ -163,6 +169,30 @@ class WriteBlogFragment : Fragment() {
                 }
 
             })
+        */
+
+        btnBlogs.setOnClickListener {
+            if (viewModel.uiState.value.username != null) {
+                db.child(viewModel.uiState.value.username.toString()).child("Blogs")
+                    .get()
+                    .addOnSuccessListener { dataSnapshot ->
+                        if (dataSnapshot.exists()) {
+
+                            // TODO - Remove null? For loop through entire array and only populate if NOT null
+                            val blogList = dataSnapshot.value as ArrayList<*>
+                            tvDisplayUserBlogpost.text= blogList.toString()
+
+                        } else {
+                            Toast.makeText(context, "No blogs found", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+
+        }
+        tvDisplayUserBlogpost.text = ""
+
+
+
 
         //Följ denna
         /*
@@ -341,6 +371,7 @@ class WriteBlogFragment : Fragment() {
 
              */
 
+        // TODO - Adding new blog after logging in, removes all items?
         // TODO Remove Title/ blogpost
         btnRemoveTitle.setOnClickListener {
             val titleToRemove = edTitleToRemove.text.toString()
@@ -357,6 +388,7 @@ class WriteBlogFragment : Fragment() {
                              blogDataSnapshot.ref.removeValue()
                                  .addOnSuccessListener {
                                      Toast.makeText(context, "Title removed", Toast.LENGTH_SHORT).show()
+                                     db.child(viewModel.uiState.value.username.toString()).child("Blogs").ref.orderByValue()
                                  }
 
                          }

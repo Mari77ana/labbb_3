@@ -8,6 +8,3 @@ class Blog(val title: String? = null, val blogpost: String? = null) {
 }
 
 
-/*
-
- */

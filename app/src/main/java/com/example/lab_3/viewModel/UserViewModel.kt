@@ -16,7 +16,7 @@ class UserViewModel: ViewModel() {
     fun setCurrentUser(username: String, title: String, blogpost: String, id: String, blogList: ArrayList<Blog>?) {
         _uiState.update {
             state -> state.copy(
-            username = username,  // username = username
+            username = username,
             password = state.password, // behåller samma lösenord
             //username = state.username + username,
             //title = state.title + title,
@@ -29,17 +29,12 @@ class UserViewModel: ViewModel() {
             ,id = id
 
             )
-            //username: String, title: String, blogpost: String, id: String, blogList: ArrayList<Blog?>?
+
         }
 
     }
 
-    /*
-    fun setUsername(newUsername: String) {
-        _username.value = newUsername
-    }
 
-     */
     fun getUsername(username: String) {
         _uiState.update {
                 state -> state.copy(
@@ -49,6 +44,8 @@ class UserViewModel: ViewModel() {
         }
 
     }
+
+
     fun clearUsername(){
         _uiState.update {
             state -> state.copy(
@@ -77,6 +74,8 @@ class UserViewModel: ViewModel() {
             )
         }
     }
+
+
 
 }
 
